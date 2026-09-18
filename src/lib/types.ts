@@ -85,3 +85,35 @@ export const STATUS_LABEL: Record<ShipmentStatus, string> = {
   DELIVERED: 'Delivered',
   CANCELLED: 'Cancelled',
 };
+
+export type EarningStatus = 'PENDING' | 'PAID' | 'VOID';
+
+export interface Earning {
+  id: string;
+  shipmentId: string;
+  driverId: string;
+  // Kobo. Divide by 100 only when displaying - never store the divided value.
+  amount: number;
+  currency: string;
+  status: EarningStatus;
+  paidAt: string | null;
+  createdAt: string;
+}
+
+export interface DriverEarnings {
+  driverId: string;
+  currency: string;
+  totals: { pending: number; paid: number; void: number };
+  count: number;
+  earnings: Earning[];
+}
+
+export const EARNING_LABEL: Record<EarningStatus, string> = {
+  PENDING: 'Awaiting delivery',
+  PAID: 'Paid',
+  VOID: 'Cancelled',
+};
+
+/** Kobo to a display string. Money is integer kobo everywhere else. */
+export const formatKobo = (kobo: number, currency = 'NGN'): string =>
+  new Intl.NumberFormat('en-NG', { style: 'currency', currency }).format(kobo / 100);
