@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { StatusBadge } from '@/components/status-badge';
 import { EmptyState } from '@/components/empty-state';
+import { DriverEarningsCard } from '@/components/driver-earnings';
 import type { Driver, Shipment } from '@/lib/types';
 
 export default function DriverPage() {
@@ -102,6 +103,8 @@ export default function DriverPage() {
           </CardContent>
         )}
       </Card>
+
+      <DriverEarningsCard driverId={driver.id} />
 
       <h2 className="text-base font-semibold tracking-tight">Active deliveries</h2>
       {active.length === 0 ? (

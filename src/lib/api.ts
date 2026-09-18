@@ -1,5 +1,5 @@
 import type {
-  Driver, Notification, Shipment, ShipmentStatus, TokenPair, TrackingEvent, User,
+  Driver, DriverEarnings, Notification, Shipment, ShipmentStatus, TokenPair, TrackingEvent, User,
 } from './types';
 
 const BASE = process.env['NEXT_PUBLIC_API_URL'] ?? '/api';
@@ -138,6 +138,11 @@ export const api = {
   notifications: {
     forRecipient: (recipientId: string) =>
       request<Notification[]>(`/notifications?recipientId=${encodeURIComponent(recipientId)}`),
+  },
+
+  earnings: {
+    forDriver: (driverId: string) =>
+      request<DriverEarnings>(`/earnings/driver/${encodeURIComponent(driverId)}`),
   },
 
   payments: {
