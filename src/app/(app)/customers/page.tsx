@@ -1,0 +1,9 @@
+import { Suspense } from 'react';
+import type { Metadata } from 'next';
+import { CustomersView } from './customers-view';
+
+export const metadata: Metadata = { title: 'Customers' };
+
+export default function CustomersPage() {
+  return <Suspense><CustomersView /></Suspense>;
+}

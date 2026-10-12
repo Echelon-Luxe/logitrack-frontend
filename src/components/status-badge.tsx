@@ -1,24 +1,30 @@
-import { cn } from '@/lib/utils';
+import { Badge, type BadgeTone } from '@/components/ui/badge';
 import { STATUS_LABEL, type ShipmentStatus } from '@/lib/types';
 
-// Green reads as "done", red as "wrong", blue as "in motion". Cancelled is
-// deliberately grey, not red: it is a valid outcome, not a failure.
-const TONE: Record<ShipmentStatus, string> = {
-  CREATED:          'bg-ink-100 text-ink-700 dark:bg-ink-800 dark:text-ink-200',
-  PICKED_UP:        'bg-accent-500/12 text-accent-600 dark:text-accent-400',
-  IN_TRANSIT:       'bg-accent-500/12 text-accent-600 dark:text-accent-400',
-  OUT_FOR_DELIVERY: 'bg-amber-500/15 text-amber-700 dark:text-amber-400',
-  DELIVERED:        'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400',
-  CANCELLED:        'bg-ink-200 text-ink-600 dark:bg-ink-800 dark:text-ink-400 line-through',
+// One hue per stage, so a list scans by colour before it is read:
+// amber waiting, sky collected, violet moving, teal arriving, green done.
+// Cancelled is rose but muted - a valid outcome, not an error.
+export const STATUS_TONE: Record<ShipmentStatus, BadgeTone> = {
+  CREATED: 'amber',
+  PICKED_UP: 'sky',
+  IN_TRANSIT: 'violet',
+  OUT_FOR_DELIVERY: 'teal',
+  DELIVERED: 'green',
+  CANCELLED: 'rose',
 };
 
-export const StatusBadge = ({ status, className }: { status: ShipmentStatus; className?: string }) => (
-  <span
-    className={cn(
-      'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium',
-      TONE[status], className,
-    )}
-  >
+// Solid colours for the same stages, for map markers, chart series and rails.
+export const STATUS_COLOR: Record<ShipmentStatus, string> = {
+  CREATED: 'oklch(0.75 0.15 70)',
+  PICKED_UP: 'oklch(0.68 0.14 230)',
+  IN_TRANSIT: 'oklch(0.58 0.2 290)',
+  OUT_FOR_DELIVERY: 'oklch(0.62 0.12 180)',
+  DELIVERED: 'oklch(0.62 0.15 155)',
+  CANCELLED: 'oklch(0.62 0.17 15)',
+};
+
+export const StatusBadge = ({ status, size, className }: { status: ShipmentStatus; size?: 'sm' | 'md'; className?: string }) => (
+  <Badge tone={STATUS_TONE[status]} size={size ?? 'md'} className={className}>
     {STATUS_LABEL[status] ?? status}
-  </span>
+  </Badge>
 );

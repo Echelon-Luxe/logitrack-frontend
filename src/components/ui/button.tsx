@@ -4,20 +4,25 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
 const button = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-150 disabled:pointer-events-none disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)] active:scale-[0.98] [&_svg]:size-4 [&_svg]:shrink-0',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[var(--radius-control)] text-sm font-medium transition-all duration-150 cursor-pointer disabled:pointer-events-none disabled:opacity-45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-bg [&_svg]:size-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
-        primary: 'bg-accent-500 text-white shadow-sm hover:bg-accent-600',
-        secondary: 'bg-[var(--surface)] text-[var(--text)] border border-[var(--border)] hover:bg-ink-100 dark:hover:bg-ink-800',
-        ghost: 'text-[var(--muted)] hover:bg-ink-100 hover:text-[var(--text)] dark:hover:bg-ink-800',
-        danger: 'bg-red-600 text-white shadow-sm hover:bg-red-700',
+        primary: 'bg-ink text-white hover:bg-ink-hover',
+        secondary: 'bg-surface text-fg border border-line hover:bg-surface-3 hover:border-line-strong',
+        soft: 'border border-line bg-surface-2 text-fg hover:bg-surface-3',
+        ghost: 'text-muted hover:bg-surface-3 hover:text-fg',
+        danger: 'bg-rose-600 text-white hover:bg-rose-700',
+        'danger-soft': 'border border-rose-200 bg-surface text-rose-700 hover:bg-rose-50',
+        success: 'bg-emerald-600 text-white hover:bg-emerald-700',
       },
       size: {
-        sm: 'h-8 px-3 text-xs',
+        xs: 'h-7 px-2.5 text-xs rounded-lg',
+        sm: 'h-8 px-3 text-xs rounded-lg',
         md: 'h-10 px-4',
-        lg: 'h-11 px-6',
+        lg: 'h-11 px-5 text-[15px]',
         icon: 'size-9',
+        'icon-sm': 'size-8 rounded-lg',
       },
     },
     defaultVariants: { variant: 'primary', size: 'md' },
@@ -27,12 +32,28 @@ const button = cva(
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof button> {
   asChild?: boolean;
+  loading?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, loading = false, disabled, children, ...props }, ref) => {
     const Comp = asChild ? Slot : 'button';
-    return <Comp className={cn(button({ variant, size }), className)} ref={ref} {...props} />;
+    return (
+      <Comp
+        className={cn(button({ variant, size }), className)}
+        ref={ref}
+        disabled={disabled || loading}
+        aria-busy={loading || undefined}
+        {...props}
+      >
+        {asChild ? children : (
+          <>
+            {loading ? <span className="size-4 animate-spin rounded-full border-2 border-current border-r-transparent" aria-hidden /> : null}
+            {children}
+          </>
+        )}
+      </Comp>
+    );
   },
 );
 Button.displayName = 'Button';

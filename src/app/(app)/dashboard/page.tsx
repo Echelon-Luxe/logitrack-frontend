@@ -2,109 +2,193 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { Package, Truck, CheckCircle2, Clock } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { ArrowRight, CheckCircle2, Clock, Package, Plus, Truck, Wallet, Users, Compass } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
-import { api } from '@/lib/api';
-import { Card, CardContent } from '@/components/ui/card';
-import { StatusBadge } from '@/components/status-badge';
-import { EmptyState } from '@/components/empty-state';
+import { useLivePositions, useShipments, useShipmentStats, useUserSummary, useDrivers } from '@/hooks/queries';
+import { PageContainer } from '@/components/app-shell';
+import { PageHeader } from '@/components/page-header';
+import { StatTile } from '@/components/stat-tile';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import type { Shipment } from '@/lib/types';
+import { Skeleton } from '@/components/ui/skeleton';
+import { StatusBadge, STATUS_COLOR } from '@/components/status-badge';
+import { EmptyState } from '@/components/empty-state';
+import { DailyChart } from '@/components/charts/daily-chart';
+import { StatusBreakdown } from '@/components/charts/status-breakdown';
+import { LiveMap, type FleetDot } from '@/components/live-map';
+import { can, isStaff } from '@/lib/rbac';
+import { formatKobo, type ShipmentStatus } from '@/lib/types';
+import { timeAgo } from '@/lib/format';
+
+const greeting = () => {
+  const h = new Date().getHours();
+  return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+};
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const [shipments, setShipments] = React.useState<Shipment[] | null>(null);
+  const router = useRouter();
+  const staff = isStaff(user?.role);
 
-  React.useEffect(() => {
-    if (!user) return;
-    let cancelled = false;
-    const q = user.role === 'CUSTOMER' ? { customerId: user.id } : {};
-    void api.shipments.list(q)
-      .then((r) => { if (!cancelled) setShipments(r); })
-      .catch(() => { if (!cancelled) setShipments([]); });
-    return () => { cancelled = true; };
-  }, [user]);
+  // Drivers have their own home.
+  React.useEffect(() => { if (user?.role === 'DRIVER') router.replace('/driver'); }, [user, router]);
 
-  const stats = React.useMemo(() => {
-    const s = shipments ?? [];
-    return {
-      total: s.length,
-      active: s.filter((x) => !['DELIVERED', 'CANCELLED'].includes(x.status)).length,
-      delivered: s.filter((x) => x.status === 'DELIVERED').length,
-      awaiting: s.filter((x) => x.status === 'CREATED').length,
-    };
-  }, [shipments]);
+  const stats = useShipmentStats();
+  const recent = useShipments({ limit: 6 });
+  const people = useUserSummary(staff);
+  const drivers = useDrivers({}, staff);
+  const live = useLivePositions(staff);
+  const active = useShipments({ statuses: ['PICKED_UP', 'IN_TRANSIT', 'OUT_FOR_DELIVERY'], limit: 100 }, { enabled: staff, refetchInterval: 15_000 });
 
-  const cards = [
-    { label: 'Total', value: stats.total, icon: Package },
-    { label: 'In progress', value: stats.active, icon: Truck },
-    { label: 'Delivered', value: stats.delivered, icon: CheckCircle2 },
-    { label: 'Awaiting pickup', value: stats.awaiting, icon: Clock },
-  ];
+  if (!user || user.role === 'DRIVER') return null;
+
+  const by = stats.data?.byStatus ?? {};
+  const moving = (by.PICKED_UP ?? 0) + (by.IN_TRANSIT ?? 0) + (by.OUT_FOR_DELIVERY ?? 0);
+  const pendingDrivers = drivers.data?.filter((d) => !d.approvedAt).length ?? 0;
+  const availableDrivers = drivers.data?.filter((d) => d.status === 'AVAILABLE').length ?? 0;
+
+  const fleet: FleetDot[] = (live.data ?? []).flatMap((p) => {
+    const s = active.data?.find((x) => x.id === p.shipmentId);
+    if (!s) return [];
+    return [{
+      id: p.shipmentId,
+      position: [p.lat, p.lng] as [number, number],
+      label: `${s.reference} · ${s.driverName ?? ''}`,
+      color: STATUS_COLOR[s.status as ShipmentStatus],
+      onClick: () => router.push(`/tracking?id=${s.id}`),
+    }];
+  });
 
   return (
-    <div className="flex flex-col gap-6 animate-fade-up">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Good to see you{user ? `, ${user.name.split(' ')[0]}` : ''}
-        </h1>
-        <p className="mt-1 text-sm text-[var(--muted)]">Here is where your shipments stand.</p>
+    <PageContainer>
+      <PageHeader
+        title={`${greeting()}, ${user.name.split(' ')[0]}`}
+        description={staff ? "Here's what's moving across the network today." : 'Your deliveries at a glance.'}
+        actions={
+          <>
+            <Button asChild variant="secondary"><Link href="/tracking"><Compass />Live tracking</Link></Button>
+            {can(user.role, 'shipment.create') ? <Button asChild><Link href="/shipments/new"><Plus />New shipment</Link></Button> : null}
+          </>
+        }
+      />
+
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {stats.isLoading ? [0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-[124px] rounded-xl" />) : (
+          <>
+            <StatTile label={staff ? 'All shipments' : 'My shipments'} value={stats.data?.total ?? 0} icon={Package} hint={`${by.CANCELLED ?? 0} cancelled`} />
+            <StatTile label="On the road" value={moving} icon={Truck} tone="violet" hint={`${by.OUT_FOR_DELIVERY ?? 0} out for delivery`} />
+            <StatTile label="Awaiting pickup" value={by.CREATED ?? 0} icon={Clock} tone="amber" hint={staff ? `${availableDrivers} drivers available` : 'Waiting for a driver'} />
+            {staff ? (
+              <StatTile label="Booked revenue" value={formatKobo(stats.data?.revenueKobo ?? 0)} icon={Wallet} tone="green" hint={`${by.DELIVERED ?? 0} delivered`} />
+            ) : (
+              <StatTile label="Delivered" value={by.DELIVERED ?? 0} icon={CheckCircle2} tone="green" hint={`${formatKobo(stats.data?.revenueKobo ?? 0)} total booked`} />
+            )}
+          </>
+        )}
       </div>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {cards.map(({ label, value, icon: Icon }) => (
-          <Card key={label}>
-            <CardContent className="flex flex-col gap-2 p-5">
-              <span className="flex items-center gap-1.5 text-xs font-medium text-[var(--muted)]">
-                <Icon className="size-3.5" />{label}
-              </span>
-              <span className="text-2xl font-semibold tabular-nums">
-                {shipments === null ? '—' : value}
-              </span>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="grid gap-4 lg:grid-cols-3">
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <div>
+              <CardTitle>Shipments, last 14 days</CardTitle>
+              <CardDescription>Created per day, and how many of those are delivered</CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {stats.data ? <DailyChart data={stats.data.daily} /> : <Skeleton className="h-64" />}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <div>
+              <CardTitle>By status</CardTitle>
+              <CardDescription>Where every shipment is right now</CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent>{stats.data ? <StatusBreakdown byStatus={by} /> : <Skeleton className="h-56" />}</CardContent>
+        </Card>
       </div>
 
-      <div className="flex items-center justify-between">
-        <h2 className="text-base font-semibold tracking-tight">Recent shipments</h2>
-        <Button asChild variant="ghost" size="sm"><Link href="/shipments">View all</Link></Button>
-      </div>
-
-      {shipments === null ? (
-        <div className="flex flex-col gap-2">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="h-16 animate-pulse rounded-[var(--radius-card)] bg-ink-100 dark:bg-ink-800" />
-          ))}
-        </div>
-      ) : shipments.length === 0 ? (
-        <EmptyState
-          icon={Package}
-          title="No shipments yet"
-          description="Create your first shipment and it will appear here with live tracking."
-          action={<Button asChild size="sm"><Link href="/shipments/new">Create shipment</Link></Button>}
-        />
-      ) : (
-        <div className="flex flex-col gap-2">
-          {shipments.slice(0, 5).map((s) => (
-            <Link key={s.id} href={`/shipments/${s.id}`}
-              className="group flex items-center gap-4 rounded-[var(--radius-card)] border border-[var(--border)] bg-[var(--surface)] p-4 transition-colors hover:border-accent-500/40">
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-medium tabular-nums">{s.reference}</span>
-                  <StatusBadge status={s.status} />
-                </div>
-                <p className="mt-0.5 truncate text-sm text-[var(--muted)]">
-                  {s.origin} → {s.destination}
-                </p>
+      <div className="grid gap-4 lg:grid-cols-3">
+        <Card className={staff ? 'lg:col-span-2' : 'lg:col-span-3'}>
+          <CardHeader>
+            <div>
+              <CardTitle>Recent shipments</CardTitle>
+              <CardDescription>Latest bookings{staff ? ' across all customers' : ''}</CardDescription>
+            </div>
+            <Button asChild variant="ghost" size="sm"><Link href="/orders">View all <ArrowRight /></Link></Button>
+          </CardHeader>
+          <CardContent className="px-2 pb-2">
+            {recent.isLoading ? <Skeleton className="mx-3 mb-3 h-48" /> : !recent.data?.length ? (
+              <div className="p-3">
+                <EmptyState icon={Package} title="No shipments yet" description="Book a delivery and it will show up here." />
               </div>
-              <time className="shrink-0 text-xs text-[var(--muted)]" dateTime={s.createdAt}>
-                {new Date(s.createdAt).toLocaleDateString()}
-              </time>
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
+            ) : (
+              <ul className="divide-y divide-line">
+                {recent.data.map((s) => (
+                  <li key={s.id}>
+                    <Link href={`/shipments/${s.id}`} className="flex items-center gap-4 rounded-xl px-3 py-3 transition hover:bg-surface-2">
+                      <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line bg-surface-2"><Package className="size-4" /></span>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold">{s.reference} <span className="font-normal text-muted">· {staff ? s.customerName : formatKobo(s.priceKobo)}</span></p>
+                        <p className="truncate text-xs text-muted">{s.origin} → {s.destination}</p>
+                      </div>
+                      <span className="hidden text-xs text-faint sm:block">{timeAgo(s.createdAt)}</span>
+                      <StatusBadge status={s.status} size="sm" />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+
+        {staff ? (
+          <div className="space-y-4">
+            <Card className="overflow-hidden">
+              <CardHeader>
+                <div>
+                  <CardTitle>Live fleet</CardTitle>
+                  <CardDescription>{fleet.length} vehicle{fleet.length === 1 ? '' : 's'} reporting</CardDescription>
+                </div>
+                <Button asChild variant="ghost" size="sm"><Link href="/tracking">Open <ArrowRight /></Link></Button>
+              </CardHeader>
+              <div className="h-56 border-t border-line">
+                <LiveMap fleet={fleet} fitKey={`fleet-${fleet.length}`} showLabels={false} />
+              </div>
+            </Card>
+            <Card>
+              <CardHeader className="pb-4">
+                <div>
+                  <CardTitle>People</CardTitle>
+                  <CardDescription>Active accounts by role</CardDescription>
+                </div>
+                <Users className="size-4 text-muted" />
+              </CardHeader>
+              <CardContent className="grid grid-cols-3 gap-2 text-center">
+                {(['CUSTOMER', 'DRIVER', 'DISPATCHER'] as const).map((r) => (
+                  <div key={r} className="rounded-xl bg-surface-2 py-3">
+                    <p className="text-xl font-semibold tabular-nums">{people.data?.[r] ?? '–'}</p>
+                    <p className="text-[11px] text-muted capitalize">{r.toLowerCase()}s</p>
+                  </div>
+                ))}
+                {pendingDrivers > 0 && can(user.role, 'drivers.approve') ? (
+                  <Link href="/drivers?filter=pending" className="col-span-3 mt-1 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-left text-[13px] font-medium text-amber-700">
+                    {pendingDrivers} driver{pendingDrivers === 1 ? '' : 's'} waiting for approval →
+                  </Link>
+                ) : null}
+              </CardContent>
+            </Card>
+          </div>
+        ) : null}
+      </div>
+      {!staff && moving > 0 ? (
+        <p className="text-center text-sm text-muted">
+          You have {moving} shipment{moving === 1 ? '' : 's'} on the road — <Link className="font-medium text-brand hover:underline" href="/tracking">watch live</Link>.
+        </p>
+      ) : null}
+    </PageContainer>
   );
 }
