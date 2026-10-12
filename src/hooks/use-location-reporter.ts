@@ -88,7 +88,9 @@ export function useLocationReporter(shipmentId: string | null, from: LatLng | nu
         }
         const a = path[i]!;
         const b = path[i + 1]!;
-        void send(b, { heading: bearing(a, b), speedKph: 28 + Math.round(Math.random() * 18) });
+        // Deterministic jitter (28-46 kph) - a simulated speed, not a security
+        // value, so no RNG. Oscillates by step so it reads like a moving vehicle.
+        void send(b, { heading: bearing(a, b), speedKph: 28 + (i % 19) });
         i += 1;
         timer = setTimeout(tick, SIM_TICK_MS);
       };
