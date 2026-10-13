@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { LogOut, Menu, PanelLeft, Plus, Search, X } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { useUnreadCount } from '@/hooks/queries';
-import { can } from '@/lib/rbac';
+import { can, homeFor } from '@/lib/rbac';
 import { ROLE_LABEL } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Avatar } from '@/components/ui/avatar';
@@ -77,17 +77,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         href={item.href}
         title={compact ? item.label : undefined}
         className={cn(
-          'group flex items-center gap-3 rounded-full px-4 py-2.5 text-[15px] font-medium transition-colors',
+          'group flex items-center gap-3 rounded-lg px-3 py-2 text-[15px] font-medium transition-colors',
           compact && 'justify-center px-0',
-          active ? 'bg-surface text-brand-strong shadow-[0_2px_10px_-4px_rgb(70_52_183/0.35)]' : 'text-muted hover:bg-surface/70 hover:text-fg',
+          active ? 'bg-surface-3 text-fg' : 'text-muted hover:bg-surface-3/60 hover:text-fg',
         )}
       >
         <item.icon className="size-[18px] shrink-0" strokeWidth={active ? 2.25 : 1.75} />
         {!compact ? <span className="flex-1 truncate">{item.label}</span> : null}
         {item.badge === 'unread' && unreadCount > 0 ? (
           compact
-            ? <span className="absolute ml-5 -mt-5 size-2 rounded-full bg-accent" />
-            : <span className="rounded-full bg-accent px-2 py-0.5 text-[11px] font-semibold text-white tabular-nums">{unreadCount > 99 ? '99+' : unreadCount}</span>
+            ? <span className="absolute ml-5 -mt-5 size-2 rounded-full bg-brand" />
+            : <span className="text-[13px] text-muted tabular-nums">{unreadCount > 99 ? '99+' : unreadCount}</span>
         ) : null}
       </Link>
     );
@@ -96,7 +96,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const sidebar = (compact: boolean, mobile = false) => (
     <div className="flex h-full flex-col gap-5 p-4">
       <div className={cn('flex h-10 items-center gap-3 px-1', compact && 'flex-col h-auto')}>
-        <Link href="/" className="flex min-w-0 flex-1 items-center">
+        <Link href={homeFor(user.role)} className="flex min-w-0 flex-1 items-center">
           <Logo compact={compact} />
         </Link>
         {mobile ? (
@@ -112,7 +112,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         type="button"
         onClick={() => setPaletteOpen(true)}
         className={cn(
-          'flex h-11 cursor-pointer items-center gap-2.5 rounded-full border border-line bg-surface px-4 text-[15px] text-faint transition hover:border-line-strong',
+          'flex h-10 cursor-pointer items-center gap-2.5 rounded-lg border border-line bg-surface px-3 text-[15px] text-faint transition hover:border-line-strong',
           compact && 'justify-center px-0',
         )}
         aria-label="Search"
@@ -121,7 +121,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {!compact ? (
           <>
             <span className="flex-1 text-left">Search</span>
-            <kbd className="rounded-full border border-line bg-surface-2 px-2 py-0.5 text-[11px] font-medium text-muted">⌘K</kbd>
+            <kbd className="rounded-md border border-line bg-surface-2 px-1.5 py-0.5 text-[11px] font-medium text-muted">⌘K</kbd>
           </>
         ) : null}
       </button>
@@ -130,7 +130,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         {visibleFor(NAV_MAIN, user.role).map((i) => navLink(i, compact))}
         {visibleFor(NAV_ADMIN, user.role).length ? (
           <>
-            {!compact ? <p className="mt-5 mb-1 px-4 text-[11px] font-semibold tracking-wider text-faint uppercase">Administration</p> : <div className="my-2 border-t border-line" />}
+            {!compact ? <p className="mt-5 mb-1 px-3 text-[13px] font-medium text-faint">Administration</p> : <div className="my-2 border-t border-line" />}
             {visibleFor(NAV_ADMIN, user.role).map((i) => navLink(i, compact))}
           </>
         ) : null}
@@ -163,25 +163,25 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       {/* Mobile drawer */}
       {mobileOpen ? (
         <div className="fixed inset-0 z-40 lg:hidden">
-          <div className="absolute inset-0 bg-ink-950/40 backdrop-blur-[2px]" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-0 bg-ink-950/40" onClick={() => setMobileOpen(false)} />
           <aside className="absolute inset-y-0 left-0 w-[288px] max-w-[85vw] bg-bg shadow-[var(--shadow-pop)] animate-fade-up">
             {sidebar(false, true)}
           </aside>
         </div>
       ) : null}
 
-      <div className="flex min-w-0 flex-1 flex-col lg:py-3 lg:pr-3">
+      <div className="flex min-w-0 flex-1 flex-col lg:py-2 lg:pr-2">
         {/* Mobile top bar */}
         <header className="flex items-center gap-2 border-b border-line bg-bg px-4 py-3 lg:hidden">
           <Button variant="ghost" size="icon-sm" onClick={() => setMobileOpen(true)} aria-label="Open menu"><Menu /></Button>
           <Logo className="flex-1" />
           <Button variant="ghost" size="icon-sm" onClick={() => setPaletteOpen(true)} aria-label="Search"><Search /></Button>
           {can(user.role, 'shipment.create') ? (
-            <Button asChild variant="accent" size="icon-sm"><Link href="/shipments/new" aria-label="New shipment"><Plus /></Link></Button>
+            <Button asChild size="icon-sm"><Link href="/shipments/new" aria-label="New shipment"><Plus /></Link></Button>
           ) : null}
         </header>
 
-        <main className="scroll-thin relative min-h-0 flex-1 overflow-y-auto bg-surface lg:rounded-[28px] lg:border lg:border-line">
+        <main className="scroll-thin relative min-h-0 flex-1 overflow-y-auto bg-surface lg:rounded-xl lg:border lg:border-line">
           {children}
         </main>
       </div>

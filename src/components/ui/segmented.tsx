@@ -17,7 +17,7 @@ export function Segmented<T extends string>({ options, value, onChange, classNam
   size?: 'sm' | 'md';
 }) {
   return (
-    <div role="radiogroup" className={cn('scroll-thin flex gap-1 overflow-x-auto rounded-full bg-lavender p-1', className)}>
+    <div role="radiogroup" className={cn('scroll-thin flex gap-1 overflow-x-auto rounded-lg border border-line bg-surface-2 p-0.5', className)}>
       {options.map((o) => {
         const active = o.value === value;
         return (
@@ -28,14 +28,14 @@ export function Segmented<T extends string>({ options, value, onChange, classNam
             aria-checked={active}
             onClick={() => onChange(o.value)}
             className={cn(
-              'inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full font-medium whitespace-nowrap transition-all',
+              'inline-flex shrink-0 cursor-pointer items-center gap-1.5 rounded-lg font-medium whitespace-nowrap transition-all',
               size === 'sm' ? 'h-7 px-2.5 text-xs' : 'h-8 px-3 text-[13px]',
-              active ? 'bg-surface text-brand-strong shadow-[0_2px_8px_-2px_rgb(70_52_183/0.25)]' : 'text-muted hover:text-fg',
+              active ? 'bg-surface text-fg shadow-[var(--shadow-card)] ring-1 ring-line' : 'text-muted hover:text-fg',
             )}
           >
             {o.label}
             {o.count !== undefined ? (
-              <span className={cn('rounded-full px-1.5 text-[11px] tabular-nums', active ? 'bg-brand-soft text-brand-strong' : 'text-faint')}>
+              <span className={cn('rounded-md px-1.5 text-[11px] tabular-nums', active ? 'text-muted' : 'text-faint')}>
                 {o.count}
               </span>
             ) : null}

@@ -1,76 +1,83 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: var(--font-geist), ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-  /* Headings: tight, heavy grotesk in the TalkPadi style. */
-  --font-display: var(--font-cabinet), var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
-  /* Warm, near-neutral greys around the #1b1a1a ink. */
-  --color-ink-50:  #fafafa;
-  --color-ink-100: #f4f4f4;
-  --color-ink-200: #e8e8e8;
-  --color-ink-300: #d4d4d4;
-  --color-ink-400: #a1a1a1;
-  --color-ink-500: #737373;
-  --color-ink-600: #525252;
-  --color-ink-700: #3d3c3c;
-  --color-ink-800: #2a2929;
-  --color-ink-900: #1b1a1a;
-  --color-ink-950: #0f0e0e;
+  /* Cool, faintly blue neutrals: reads calmer than pure grey and lets the
+     brand blue and status colours carry the meaning. */
+  --color-ink-50:  oklch(0.985 0.003 260);
+  --color-ink-100: oklch(0.967 0.005 260);
+  --color-ink-200: oklch(0.925 0.007 260);
+  --color-ink-300: oklch(0.87 0.01 260);
+  --color-ink-400: oklch(0.71 0.014 262);
+  --color-ink-500: oklch(0.556 0.016 262);
+  --color-ink-600: oklch(0.45 0.018 264);
+  --color-ink-700: oklch(0.37 0.02 265);
+  --color-ink-800: oklch(0.28 0.018 266);
+  --color-ink-900: oklch(0.215 0.016 266);
+  --color-ink-950: oklch(0.165 0.014 266);
 
-  /* Violet brand ramp; 500 is the TalkPadi #6248ff, 700 its deep #4634b7. */
-  --color-brand-50:  #f2f0ff;
-  --color-brand-100: #e6e2ff;
-  --color-brand-200: #d5cdfe;
-  --color-brand-300: #b5aaf3;
-  --color-brand-400: #8b78ff;
-  --color-brand-500: #6248ff;
-  --color-brand-600: #5239e0;
-  --color-brand-700: #4634b7;
+  --color-brand-50:  oklch(0.97 0.02 262);
+  --color-brand-100: oklch(0.93 0.045 262);
+  --color-brand-200: oklch(0.87 0.08 262);
+  --color-brand-300: oklch(0.78 0.13 262);
+  --color-brand-400: oklch(0.68 0.17 262);
+  --color-brand-500: oklch(0.58 0.2 262);
+  --color-brand-600: oklch(0.51 0.21 263);
+  --color-brand-700: oklch(0.44 0.19 264);
 
-  --radius-card: 1.5rem;
-  /* Buttons and toggles are pills; text fields keep a softer corner so
-     multi-line inputs don't look like capsules. */
-  --radius-control: 9999px;
-  --radius-field: 0.875rem;
+  --radius-card: 0.75rem;
+  --radius-control: 0.5rem;
 
-  --shadow-card: 0 1px 2px rgb(27 26 26 / 0.04);
-  --shadow-pop: 0 1px 3px rgb(70 52 183 / 0.08), 0 16px 32px -12px rgb(70 52 183 / 0.22);
+  /* Borders do the work; shadows only hint at elevation. */
+  --shadow-card: 0 1px 2px oklch(0.2 0.02 265 / 0.05);
+  --shadow-pop: 0 1px 3px oklch(0.2 0.02 265 / 0.08), 0 12px 24px -8px oklch(0.2 0.02 265 / 0.14);
 
   --animate-fade-up: fade-up 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-pulse-ring: pulse-ring 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
-/* Semantic tokens. Components use these, never raw ink-* values. Light only.
-   Palette follows talkpadi.com: violet brand, coral calls to action, lavender
-   and peach surfaces on a warm grey page. */
+/* Landing page only (src/app/(marketing)). Namespaced lp-* so nothing in the
+   app picks these up. Palette after talkpadi.com; the coral is a shade deeper
+   than theirs so white button text clears 4.5:1. */
+@theme {
+  --font-lp-display: var(--font-cabinet), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-lp-ink: #1b1a1a;
+  --color-lp-violet: #6248ff;
+  --color-lp-violet-deep: #4634b7;
+  --color-lp-coral: #d93a1c;
+  --color-lp-coral-deep: #c23016;
+  --color-lp-lavender: #f2f0ff;
+  --color-lp-chip: #d5cdfe;
+  --color-lp-peach: #f9e1dc;
+  --color-lp-peach-deep: #eca194;
+  --color-lp-cream: #fef4ee;
+  --color-lp-mint: #e3f8f5;
+  --color-lp-orange: #fb7209;
+  --color-lp-teal: #00bea6;
+  --color-lp-panel: #f4f4f4;
+}
+
+/* Semantic tokens. Components use these, never raw ink-* values. Light only. */
 :root {
-  --bg: #f4f4f4;
-  --surface: #ffffff;
-  --surface-2: #f8f7fc;
-  --surface-3: #f2f0ff;
-  --border: #ece9fb;
-  --border-strong: #d5cdfe;
-  --text: #1b1a1a;
-  --muted: #67666c;
-  --faint: #9a99a0;
-  --ink: #1b1a1a;
-  --ink-hover: #343333;
+  --bg: oklch(0.975 0.002 260);
+  --surface: oklch(1 0 0);
+  --surface-2: oklch(0.985 0.002 260);
+  --surface-3: oklch(0.96 0.003 260);
+  --border: oklch(0.92 0.004 260);
+  --border-strong: oklch(0.87 0.006 260);
+  --text: oklch(0.21 0.02 264);
+  --muted: oklch(0.5 0.014 262);
+  --faint: oklch(0.66 0.01 262);
+  /* Near-black primary, like the buttons in the reference design. Blue is
+     kept for links, focus and the map route. */
+  --ink: oklch(0.21 0.03 264);
+  --ink-hover: oklch(0.29 0.03 264);
   --brand: var(--color-brand-500);
-  --brand-strong: var(--color-brand-700);
-  --brand-soft: rgb(98 72 255 / 0.1);
-  --ring: rgb(98 72 255 / 0.45);
-  /* Coral, a shade deeper than the reference so white button text clears 4.5:1. */
-  --accent: #d93a1c;
-  --accent-strong: #c23016;
-  --lavender: #f2f0ff;
-  --peach: #f9e1dc;
-  --peach-strong: #eca194;
-  --cream: #fef4ee;
-  --mint: #e3f8f5;
-  --orange: #fb7209;
-  --teal: #00bea6;
-  --map-tint: #f1f0f6;
+  --brand-strong: var(--color-brand-600);
+  --brand-soft: oklch(0.58 0.2 262 / 0.1);
+  --ring: oklch(0.58 0.2 262 / 0.45);
+  --map-tint: oklch(0.95 0.005 260);
   color-scheme: light;
 }
 
@@ -91,15 +98,6 @@
   --color-ink: var(--ink);
   --color-ink-hover: var(--ink-hover);
   --color-ring: var(--ring);
-  --color-accent: var(--accent);
-  --color-accent-strong: var(--accent-strong);
-  --color-lavender: var(--lavender);
-  --color-peach: var(--peach);
-  --color-peach-strong: var(--peach-strong);
-  --color-cream: var(--cream);
-  --color-mint: var(--mint);
-  --color-orange: var(--orange);
-  --color-teal: var(--teal);
 }
 
 * { border-color: var(--border); }
@@ -114,8 +112,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-h1, h2 { font-family: var(--font-display); }
-
 ::selection { background: var(--brand-soft); }
 
 /* Thin, quiet scrollbars for the long panels (tracking list, inbox). */
@@ -123,10 +119,9 @@ h1, h2 { font-family: var(--font-display); }
 .scroll-thin::-webkit-scrollbar { width: 8px; height: 8px; }
 .scroll-thin::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
 
-/* Soft violet/peach halo behind a panel (talkpadi.com's dashboard glow). The
-   element gets its own stacking context so the halo stays behind it. */
-.lt-glow { isolation: isolate; position: relative; }
-.lt-glow::before {
+/* Soft violet/peach halo behind the landing hero screenshot. */
+.lp-glow { isolation: isolate; position: relative; }
+.lp-glow::before {
   content: "";
   position: absolute;
   inset: -120px;
@@ -166,7 +161,7 @@ h1, h2 { font-family: var(--font-display); }
 .leaflet-control-attribution a { color: var(--muted) !important; }
 .leaflet-control-zoom {
   border: 1px solid var(--border) !important;
-  border-radius: 9999px !important;
+  border-radius: 12px !important;
   overflow: hidden;
   box-shadow: var(--shadow-card) !important;
 }

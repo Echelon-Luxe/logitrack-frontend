@@ -55,14 +55,14 @@ export default function InboxPage() {
       <Segmented value={filter} onChange={setFilter} options={[{ value: 'all', label: 'All', count: inbox.data?.length ?? 0 }, { value: 'unread', label: 'Unread', count: unread }]} className="w-fit" />
 
       {inbox.isLoading ? (
-        <div className="space-y-2">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-20 rounded-3xl" />)}</div>
+        <div className="space-y-2">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-20 rounded-xl" />)}</div>
       ) : items.length === 0 ? (
         <EmptyState icon={filter === 'unread' ? BellOff : InboxIcon} title={filter === 'unread' ? 'No unread updates' : 'No notifications yet'} description="Updates about your shipments land here as they happen." />
       ) : (
         (['Today', 'Yesterday', 'Earlier'] as const).filter((g) => groups[g]?.length).map((g) => (
           <section key={g} className="space-y-2">
             <h2 className="px-1 text-xs font-semibold tracking-wide text-faint uppercase">{g}</h2>
-            <ul className="overflow-hidden rounded-3xl border border-line bg-surface shadow-[var(--shadow-card)]">
+            <ul className="overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow-card)]">
               {groups[g]!.map((n) => {
                 const meta = ICON[n.eventType] ?? { icon: Package, tone: 'bg-surface-3 text-muted' };
                 return (
@@ -72,7 +72,7 @@ export default function InboxPage() {
                       onClick={() => { if (!n.readAt) markRead.mutate(n.id); }}
                       className={cn('flex gap-4 px-4 py-4 transition hover:bg-surface-2', !n.readAt && 'bg-surface-2')}
                     >
-                      <span className={cn('grid size-10 shrink-0 place-items-center rounded-2xl', meta.tone)}><meta.icon className="size-[18px]" /></span>
+                      <span className={cn('grid size-10 shrink-0 place-items-center rounded-xl', meta.tone)}><meta.icon className="size-[18px]" /></span>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-start justify-between gap-3">
                           <p className={cn('text-sm', n.readAt ? 'font-medium' : 'font-semibold')}>{n.subject}</p>

@@ -99,7 +99,7 @@ export default function ShipmentDetailPage() {
         <div>
           <button onClick={() => router.back()} className="inline-flex cursor-pointer items-center gap-1.5 text-sm text-muted hover:text-fg"><ArrowLeft className="size-4" />Back</button>
           <div className="mt-2 flex flex-wrap items-center gap-3">
-            <h1 className="font-display text-3xl font-extrabold tracking-tight">{s.reference}</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">{s.reference}</h1>
             <button
               className="cursor-pointer text-faint hover:text-fg"
               onClick={() => { void navigator.clipboard.writeText(s.reference); toast.success('Reference copied'); }}
@@ -160,7 +160,7 @@ export default function ShipmentDetailPage() {
             <CardHeader><div><CardTitle>Journey</CardTitle><CardDescription>Every step, as it happened</CardDescription></div></CardHeader>
             <CardContent>
               {s.status === 'CANCELLED' ? (
-                <div className="mb-4 flex items-center gap-2 rounded-2xl border border-rose-500/25 bg-rose-500/8 px-4 py-3 text-sm text-rose-700">
+                <div className="mb-4 flex items-center gap-2 rounded-xl border border-rose-500/25 bg-rose-500/8 px-4 py-3 text-sm text-rose-700">
                   <X className="size-4" />Cancelled {eventFor('CANCELLED') ? timeAgo(eventFor('CANCELLED')!.occurredAt) : ''}
                 </div>
               ) : null}
@@ -223,7 +223,7 @@ export default function ShipmentDetailPage() {
             <CardHeader className="pb-3"><div><CardTitle className="flex items-center gap-2"><Wallet className="size-4 text-muted" />Payment</CardTitle><CardDescription>{formatKobo(s.priceKobo)} quoted at booking</CardDescription></div></CardHeader>
             <CardContent className="space-y-2">
               {payments.data?.length ? payments.data.map((p) => (
-                <div key={p.id} className="flex items-center justify-between rounded-2xl bg-surface-2 px-3 py-2.5 text-sm">
+                <div key={p.id} className="flex items-center justify-between rounded-xl bg-surface-2 px-3 py-2.5 text-sm">
                   <div>
                     <p className="font-medium tabular-nums">{formatKobo(p.amount, p.currency)}</p>
                     <p className="text-xs text-muted">{p.paidAt ? formatDateTime(p.paidAt) : formatDateTime(p.createdAt)}{p.channel ? ` · ${p.channel}` : ''}</p>
@@ -247,7 +247,7 @@ export default function ShipmentDetailPage() {
 function Address({ label, text, tone }: { label: string; text: string; tone: 'pickup' | 'dropoff' }) {
   return (
     <div className="flex gap-3">
-      <span className={cn('mt-0.5 grid size-8 shrink-0 place-items-center rounded-2xl', tone === 'pickup' ? 'bg-emerald-500/12 text-emerald-600' : 'bg-brand-soft text-brand')}>
+      <span className={cn('mt-0.5 grid size-8 shrink-0 place-items-center rounded-xl', tone === 'pickup' ? 'bg-emerald-500/12 text-emerald-600' : 'bg-brand-soft text-brand')}>
         <MapPin className="size-4" />
       </span>
       <div>
@@ -269,7 +269,7 @@ function AssignDialog({ open, onOpenChange, shipmentId }: { open: boolean; onOpe
         ) : (
           <ul className="space-y-2">
             {drivers.data.map((d) => (
-              <li key={d.id} className="flex items-center gap-3 rounded-2xl border border-line p-3">
+              <li key={d.id} className="flex items-center gap-3 rounded-xl border border-line p-3">
                 <Avatar name={d.name} size="sm" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-semibold">{d.name}</p>

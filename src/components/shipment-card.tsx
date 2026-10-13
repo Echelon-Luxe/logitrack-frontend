@@ -36,17 +36,17 @@ export function ShipmentCard({ shipment: s, viewerRole, selected, progress, onSe
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect?.(); }
       }}
       className={cn(
-        'group cursor-pointer rounded-3xl border bg-surface p-5 transition-colors outline-none',
+        'group cursor-pointer rounded-xl border bg-surface p-5 transition-colors outline-none',
         'hover:border-line-strong focus-visible:ring-2 focus-visible:ring-ring',
-        selected ? 'border-brand bg-lavender/40 ring-1 ring-brand' : 'border-line',
+        selected ? 'border-brand-500 ring-1 ring-brand-500' : 'border-line',
       )}
     >
       <header className="flex items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="grid size-9 shrink-0 place-items-center rounded-2xl bg-lavender text-brand-strong">
+          <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-line bg-surface-2 text-fg">
             <Package className="size-4" />
           </span>
-          <span className="truncate font-display text-lg font-extrabold tracking-tight tabular-nums">#{s.reference.replace(/^LT-/, '')}</span>
+          <span className="truncate text-[17px] font-semibold tracking-tight tabular-nums">#{s.reference.replace(/^LT-/, '')}</span>
         </div>
         <StatusBadge status={s.status} />
       </header>

@@ -21,7 +21,7 @@ export function ContactRow({ name, role, phone, email, className }: {
           <a
             href={telHref(phone)}
             onClick={(e) => e.stopPropagation()}
-            className="grid size-9 place-items-center rounded-full border border-line bg-surface text-fg transition hover:border-brand/40 hover:bg-lavender hover:text-brand-strong"
+            className="grid size-9 place-items-center rounded-xl border border-line bg-surface text-fg shadow-[0_1px_1px_oklch(0_0_0/0.03)] transition hover:border-line-strong hover:bg-surface-3"
             aria-label={`Call ${name}`}
             title={phone}
           >
@@ -32,7 +32,7 @@ export function ContactRow({ name, role, phone, email, className }: {
           <a
             href={`mailto:${email}`}
             onClick={(e) => e.stopPropagation()}
-            className="grid size-9 place-items-center rounded-full border border-line bg-surface text-fg transition hover:border-brand/40 hover:bg-lavender hover:text-brand-strong"
+            className="grid size-9 place-items-center rounded-xl border border-line bg-surface text-fg shadow-[0_1px_1px_oklch(0_0_0/0.03)] transition hover:border-line-strong hover:bg-surface-3"
             aria-label={`Email ${name}`}
             title={email}
           >

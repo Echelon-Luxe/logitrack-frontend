@@ -2,9 +2,9 @@
 
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-// Brand violet and TalkPadi teal: distinct in hue and lightness, both
-// readable against the white surface.
-const SERIES = { created: '#6248ff', delivered: '#00a38f' };
+// Categorical slots 1 and 3 of the validated reference palette, checked
+// against this app's white surface.
+const SERIES = { created: '#2a78d6', delivered: '#1baf7a' };
 
 const shortDay = (iso: string) => new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', timeZone: 'UTC' });
 
@@ -15,7 +15,7 @@ function ChartTooltip({ active, payload, label, colors }: {
 }) {
   if (!active || !payload?.length || !label) return null;
   return (
-    <div className="rounded-2xl border border-line bg-surface px-3 py-2 text-xs shadow-[var(--shadow-pop)]">
+    <div className="rounded-xl border border-line bg-surface px-3 py-2 text-xs shadow-[var(--shadow-pop)]">
       <p className="mb-1 font-semibold text-fg">{shortDay(label)}</p>
       {payload.map((p) => (
         <p key={p.dataKey} className="flex items-center gap-2 text-muted">

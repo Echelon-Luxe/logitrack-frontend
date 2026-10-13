@@ -108,7 +108,7 @@ function Users() {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-line bg-surface shadow-[var(--shadow-card)]">
+      <div className="overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow-card)]">
         {users.isLoading ? <div className="space-y-2 p-4">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-12" />)}</div> : !users.data?.items.length ? (
           <div className="p-6"><EmptyState icon={Search} title="No users found" description="Try a different role or search." /></div>
         ) : (
@@ -187,7 +187,7 @@ function Users() {
           {reset ? (
             <div className="space-y-4">
               <div className="flex items-center gap-2">
-                <code className="flex-1 rounded-xl border border-line bg-surface-2 px-3 py-2 font-mono text-sm">{reset.password}</code>
+                <code className="flex-1 rounded-lg border border-line bg-surface-2 px-3 py-2 font-mono text-sm">{reset.password}</code>
                 <Button size="icon-sm" variant="secondary" onClick={() => { void navigator.clipboard.writeText(reset.password); toast.success('Copied'); }} aria-label="Copy password"><Copy /></Button>
               </div>
               <p className="text-[13px] text-muted">They should change it in Settings after signing in.</p>
@@ -257,11 +257,11 @@ function InviteDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o:
       <DialogContent title="Add a user" description="Staff accounts can only be created here - never by self sign-up.">
         {temp ? (
           <div className="space-y-4">
-            <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4">
+            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4">
               <p className="flex items-center gap-2 text-sm font-semibold"><KeyRound className="size-4" />Temporary password</p>
               <p className="mt-1 text-xs text-muted">Shown once. Share it securely; they should change it in Settings after signing in.</p>
               <div className="mt-3 flex items-center gap-2">
-                <code className="flex-1 rounded-xl bg-surface px-3 py-2 font-mono text-sm">{temp}</code>
+                <code className="flex-1 rounded-lg bg-surface px-3 py-2 font-mono text-sm">{temp}</code>
                 <Button size="icon-sm" variant="secondary" onClick={() => { void navigator.clipboard.writeText(temp); toast.success('Copied'); }} aria-label="Copy password"><Copy /></Button>
               </div>
             </div>

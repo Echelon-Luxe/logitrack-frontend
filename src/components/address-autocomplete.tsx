@@ -122,7 +122,7 @@ export function AddressAutocomplete({ id, value, onChange, placeholder, tone }: 
       />
       {loading && searching ? <Loader2 className="absolute top-1/2 right-3 size-4 -translate-y-1/2 animate-spin text-faint" /> : null}
       {open && options.length > 0 ? (
-        <ul id={`${id}-list`} role="listbox" className="scroll-thin absolute z-30 mt-1.5 max-h-72 w-full overflow-y-auto rounded-2xl border border-line bg-surface p-1 shadow-[var(--shadow-pop)]">
+        <ul id={`${id}-list`} role="listbox" className="scroll-thin absolute z-30 mt-1.5 max-h-72 w-full overflow-y-auto rounded-xl border border-line bg-surface p-1 shadow-[var(--shadow-pop)]">
           {text.trim().length < 3 ? <li className="px-3 pt-2 pb-1 text-[11px] font-semibold tracking-wide text-faint uppercase">Popular in Lagos</li> : null}
           {options.map((p, i) => (
             <li
@@ -131,7 +131,7 @@ export function AddressAutocomplete({ id, value, onChange, placeholder, tone }: 
               aria-selected={i === active}
               onMouseEnter={() => setActive(i)}
               onMouseDown={(e) => { e.preventDefault(); choose(p); }}
-              className={cn('flex cursor-pointer items-start gap-2.5 rounded-xl px-3 py-2 text-sm', i === active && 'bg-surface-3')}
+              className={cn('flex cursor-pointer items-start gap-2.5 rounded-lg px-3 py-2 text-sm', i === active && 'bg-surface-3')}
             >
               {text.trim().length < 3 ? <Star className="mt-0.5 size-4 shrink-0 text-faint" /> : <MapPin className="mt-0.5 size-4 shrink-0 text-faint" />}
               <span>{p.label}</span>
