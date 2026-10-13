@@ -68,13 +68,13 @@ export default function DashboardPage() {
         actions={
           <>
             <Button asChild variant="secondary"><Link href="/tracking"><Compass />Live tracking</Link></Button>
-            {can(user.role, 'shipment.create') ? <Button asChild><Link href="/shipments/new"><Plus />New shipment</Link></Button> : null}
+            {can(user.role, 'shipment.create') ? <Button asChild variant="accent"><Link href="/shipments/new"><Plus />New shipment</Link></Button> : null}
           </>
         }
       />
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {stats.isLoading ? [0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-[124px] rounded-xl" />) : (
+        {stats.isLoading ? [0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-[124px] rounded-3xl" />) : (
           <>
             <StatTile label={staff ? 'All shipments' : 'My shipments'} value={stats.data?.total ?? 0} icon={Package} hint={`${by.CANCELLED ?? 0} cancelled`} />
             <StatTile label="On the road" value={moving} icon={Truck} tone="violet" hint={`${by.OUT_FOR_DELIVERY ?? 0} out for delivery`} />
@@ -129,8 +129,8 @@ export default function DashboardPage() {
               <ul className="divide-y divide-line">
                 {recent.data.map((s) => (
                   <li key={s.id}>
-                    <Link href={`/shipments/${s.id}`} className="flex items-center gap-4 rounded-xl px-3 py-3 transition hover:bg-surface-2">
-                      <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line bg-surface-2"><Package className="size-4" /></span>
+                    <Link href={`/shipments/${s.id}`} className="flex items-center gap-4 rounded-2xl px-3 py-3 transition hover:bg-surface-2">
+                      <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-lavender text-brand-strong"><Package className="size-4" /></span>
                       <div className="min-w-0 flex-1">
                         <p className="text-sm font-semibold">{s.reference} <span className="font-normal text-muted">· {staff ? s.customerName : formatKobo(s.priceKobo)}</span></p>
                         <p className="truncate text-xs text-muted">{s.origin} → {s.destination}</p>
@@ -169,13 +169,13 @@ export default function DashboardPage() {
               </CardHeader>
               <CardContent className="grid grid-cols-3 gap-2 text-center">
                 {(['CUSTOMER', 'DRIVER', 'DISPATCHER'] as const).map((r) => (
-                  <div key={r} className="rounded-xl bg-surface-2 py-3">
-                    <p className="text-xl font-semibold tabular-nums">{people.data?.[r] ?? '–'}</p>
+                  <div key={r} className="rounded-2xl bg-lavender py-3">
+                    <p className="font-display text-2xl font-extrabold tabular-nums">{people.data?.[r] ?? '–'}</p>
                     <p className="text-[11px] text-muted capitalize">{r.toLowerCase()}s</p>
                   </div>
                 ))}
                 {pendingDrivers > 0 && can(user.role, 'drivers.approve') ? (
-                  <Link href="/drivers?filter=pending" className="col-span-3 mt-1 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-left text-[13px] font-medium text-amber-700">
+                  <Link href="/drivers?filter=pending" className="col-span-3 mt-1 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-left text-[13px] font-medium text-amber-700">
                     {pendingDrivers} driver{pendingDrivers === 1 ? '' : 's'} waiting for approval →
                   </Link>
                 ) : null}

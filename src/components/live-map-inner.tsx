@@ -45,11 +45,11 @@ const pin = (label: string | null, tone: 'pickup' | 'dropoff') =>
     iconSize: [0, 0],
     html: `
       <div style="position:relative;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;">
-        ${label && tone === 'pickup' ? `<div style="order:-1;padding:6px 12px;border-radius:10px;background:var(--surface);color:var(--text);font:600 13px var(--font-sans);box-shadow:var(--shadow-pop);border:1px solid var(--border);white-space:nowrap;margin-bottom:2px">${label}</div>` : ''}
+        ${label && tone === 'pickup' ? `<div style="order:-1;padding:6px 12px;border-radius:999px;background:var(--surface);color:var(--text);font:600 13px var(--font-sans);box-shadow:var(--shadow-pop);border:1px solid var(--border);white-space:nowrap;margin-bottom:2px">${label}</div>` : ''}
         <div style="width:22px;height:22px;border-radius:999px;background:color-mix(in oklch, var(--brand) 25%, transparent);display:grid;place-items:center">
           <div style="width:12px;height:12px;border-radius:999px;background:var(--brand);border:2px solid white;box-shadow:0 1px 3px rgba(0,0,0,.3)"></div>
         </div>
-        ${label && tone === 'dropoff' ? `<div style="padding:6px 12px;border-radius:10px;background:var(--surface);color:var(--text);font:600 13px var(--font-sans);box-shadow:var(--shadow-pop);border:1px solid var(--border);white-space:nowrap;margin-top:2px">${label}</div>` : ''}
+        ${label && tone === 'dropoff' ? `<div style="padding:6px 12px;border-radius:999px;background:var(--surface);color:var(--text);font:600 13px var(--font-sans);box-shadow:var(--shadow-pop);border:1px solid var(--border);white-space:nowrap;margin-top:2px">${label}</div>` : ''}
       </div>`,
   });
 
@@ -64,7 +64,7 @@ const truckIcon = (heading: number) =>
         <div style="position:absolute;inset:0;transform:rotate(${Math.round(heading)}deg)">
           <span style="position:absolute;top:6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:9px solid var(--brand-strong)"></span>
         </div>
-        <div style="position:relative;width:36px;height:36px;border-radius:12px;background:var(--surface);box-shadow:var(--shadow-pop);display:grid;place-items:center;border:1px solid var(--border)">
+        <div style="position:relative;width:36px;height:36px;border-radius:999px;background:var(--surface);box-shadow:var(--shadow-pop);display:grid;place-items:center;border:1px solid var(--border)">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
         </div>
       </div>`,
@@ -160,14 +160,16 @@ export default function LiveMapInner({
       <ResizeWatcher />
       <FitBounds points={fitPoints} fitKey={fitKey} padBottom={padBottom} />
 
+      {/* className is a constructor option: react-leaflet applies pathOptions
+          with setStyle(), which never sets the class. */}
       {ahead.length > 1 ? (
-        <Polyline positions={ahead} pathOptions={{ className: 'lt-route-ahead-line', weight: 5, lineCap: 'round', lineJoin: 'round' }} />
+        <Polyline positions={ahead} className="lt-route-ahead-line" pathOptions={{ weight: 5, lineCap: 'round', lineJoin: 'round' }} />
       ) : null}
       {trail && trail.length > 1 ? (
-        <Polyline positions={trail} pathOptions={{ className: 'lt-route-trail', weight: 3, dashArray: '2 8', lineCap: 'round' }} />
+        <Polyline positions={trail} className="lt-route-trail" pathOptions={{ weight: 3, dashArray: '2 8', lineCap: 'round' }} />
       ) : null}
       {travelled.length > 1 ? (
-        <Polyline positions={travelled} pathOptions={{ className: 'lt-route-done', weight: 6, lineCap: 'round', lineJoin: 'round' }} />
+        <Polyline positions={travelled} className="lt-route-done" pathOptions={{ weight: 6, lineCap: 'round', lineJoin: 'round' }} />
       ) : null}
 
       {from ? <Marker position={from} icon={pin(showLabels ? 'Pickup' : null, 'pickup')} /> : null}

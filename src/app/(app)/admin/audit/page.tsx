@@ -52,7 +52,7 @@ function Audit() {
           <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search actor or action" className="pl-9" aria-label="Search audit log" />
         </div>
       </div>
-      <div className="rounded-xl border border-line bg-surface shadow-[var(--shadow-card)]">
+      <div className="rounded-3xl border border-line bg-surface shadow-[var(--shadow-card)]">
         {audit.isLoading ? <div className="space-y-2 p-4">{[0, 1, 2, 3].map((i) => <Skeleton key={i} className="h-12" />)}</div> : !audit.data?.items.length ? (
           <div className="p-6"><EmptyState icon={ScrollText} title="Nothing recorded" description="No entries match this filter." /></div>
         ) : (
@@ -61,7 +61,7 @@ function Audit() {
               const m = META[e.action] ?? { icon: ScrollText, tone: 'bg-surface-3 text-muted', describe: (x: AuditEntry) => x.action };
               return (
                 <li key={e.id} className="flex items-start gap-4 px-5 py-3.5">
-                  <span className={cn('mt-0.5 grid size-9 shrink-0 place-items-center rounded-xl', m.tone)}><m.icon className="size-4" /></span>
+                  <span className={cn('mt-0.5 grid size-9 shrink-0 place-items-center rounded-2xl', m.tone)}><m.icon className="size-4" /></span>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm"><span className="font-semibold">{e.actorEmail ?? 'Someone'}</span> <span className="text-muted">{m.describe(e)}</span></p>
                     <p className="mt-0.5 text-xs text-faint">{formatDateTime(e.createdAt)}{e.ip ? ` · ${e.ip}` : ''} · <code className="text-[11px]">{e.action}</code></p>

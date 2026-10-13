@@ -30,13 +30,13 @@ export function ProgressRail({ status, progress, className }: { status: Shipment
             className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 transition-[left] duration-700"
             style={{ left: `clamp(10px, ${pct}, calc(100% - 10px))` }}
           >
-            <span className="grid size-6 place-items-center rounded-md bg-surface text-fg shadow-[var(--shadow-card)] ring-1 ring-line">
+            <span className="grid size-6 place-items-center rounded-full bg-brand text-white shadow-[0_4px_10px_-2px_rgb(98_72_255/0.5)]">
               <Truck className="size-3.5" />
             </span>
           </span>
         ) : null}
       </div>
-      <span className={cn('relative z-10 size-3 shrink-0 rounded-full ring-4', done ? 'bg-emerald-500 ring-emerald-500/15' : cancelled ? 'bg-rose-400 ring-rose-400/15' : 'bg-ink-600 ring-surface-3')} />
+      <span className={cn('relative z-10 size-3 shrink-0 rounded-full ring-4', done ? 'bg-emerald-500 ring-emerald-500/15' : cancelled ? 'bg-rose-400 ring-rose-400/15' : 'bg-ink ring-surface-3')} />
     </div>
   );
 }

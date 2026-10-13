@@ -44,7 +44,7 @@ export function MockCheckout() {
       </div>
       <Card>
         <CardContent className="space-y-5 pt-6 text-center">
-          <span className="mx-auto grid size-12 place-items-center rounded-lg border border-line text-muted"><CreditCard className="size-5" /></span>
+          <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-lavender text-brand"><CreditCard className="size-5" /></span>
           {payment.isLoading ? <Skeleton className="mx-auto h-10 w-40" /> : payment.data ? (
             <div>
               <p className="text-sm text-muted">Amount due</p>

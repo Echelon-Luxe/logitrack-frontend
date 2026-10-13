@@ -8,10 +8,10 @@ const badge = cva(
     variants: {
       tone: {
         neutral: 'border-line bg-surface-3 text-muted',
-        brand: 'border-brand/20 bg-brand-soft text-brand',
+        brand: 'border-brand/20 bg-brand-soft text-brand-strong',
         amber: 'border-amber-500/25 bg-amber-500/10 text-amber-700',
         sky: 'border-sky-500/25 bg-sky-500/10 text-sky-700',
-        violet: 'border-violet-500/25 bg-violet-500/10 text-violet-700',
+        violet: 'border-brand/25 bg-brand-soft text-brand-strong',
         teal: 'border-teal-500/25 bg-teal-500/10 text-teal-700',
         green: 'border-emerald-500/25 bg-emerald-500/10 text-emerald-700',
         rose: 'border-rose-500/25 bg-rose-500/10 text-rose-700',
