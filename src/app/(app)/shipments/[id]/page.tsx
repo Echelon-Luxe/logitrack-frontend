@@ -139,7 +139,7 @@ export default function ShipmentDetailPage() {
                 fitKey={s.id}
               />
               {moving ? (
-                <div className="absolute top-3 left-3 z-[500] flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium shadow-[var(--shadow-card)]">
+                <div className="absolute top-3 right-3 z-[500] flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-xs font-medium shadow-[var(--shadow-card)]">
                   <span className="relative flex size-2">
                     {live.connected ? <span className="absolute inset-0 animate-ping rounded-full bg-emerald-500/70" /> : null}
                     <span className={cn('relative size-2 rounded-full', live.connected ? 'bg-emerald-500' : 'bg-amber-500')} />

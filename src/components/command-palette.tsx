@@ -51,7 +51,7 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
   return (
     <D.Root open={open} onOpenChange={change}>
       <D.Portal>
-        <D.Overlay className="fixed inset-0 z-50 bg-ink-950/40-[2px]" />
+        <D.Overlay className="fixed inset-0 z-50 bg-ink-950/40 backdrop-blur-[2px]" />
         <D.Content className="fixed top-[12vh] left-1/2 z-50 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow-pop)] focus:outline-none">
           <D.Title className="sr-only">Search</D.Title>
           <D.Description className="sr-only">Search shipments, people and pages</D.Description>

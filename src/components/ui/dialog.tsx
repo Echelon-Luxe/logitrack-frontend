@@ -20,7 +20,7 @@ export function DialogContent({ title, description, children, className, side }:
   const sheet = side === 'right';
   return (
     <D.Portal>
-      <D.Overlay className="fixed inset-0 z-50 bg-ink-950/40-[2px] data-[state=open]:animate-[fade-up_0.2s_ease-out]" />
+      <D.Overlay className="fixed inset-0 z-50 bg-ink-950/40 backdrop-blur-[2px] data-[state=open]:animate-[fade-up_0.2s_ease-out]" />
       <D.Content
         className={cn(
           'fixed z-50 flex flex-col border border-line bg-surface shadow-[var(--shadow-pop)] focus:outline-none',

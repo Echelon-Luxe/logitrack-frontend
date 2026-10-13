@@ -160,14 +160,16 @@ export default function LiveMapInner({
       <ResizeWatcher />
       <FitBounds points={fitPoints} fitKey={fitKey} padBottom={padBottom} />
 
+      {/* className is a constructor option: react-leaflet applies pathOptions
+          with setStyle(), which never sets the class. */}
       {ahead.length > 1 ? (
-        <Polyline positions={ahead} pathOptions={{ className: 'lt-route-ahead-line', weight: 5, lineCap: 'round', lineJoin: 'round' }} />
+        <Polyline positions={ahead} className="lt-route-ahead-line" pathOptions={{ weight: 5, lineCap: 'round', lineJoin: 'round' }} />
       ) : null}
       {trail && trail.length > 1 ? (
-        <Polyline positions={trail} pathOptions={{ className: 'lt-route-trail', weight: 3, dashArray: '2 8', lineCap: 'round' }} />
+        <Polyline positions={trail} className="lt-route-trail" pathOptions={{ weight: 3, dashArray: '2 8', lineCap: 'round' }} />
       ) : null}
       {travelled.length > 1 ? (
-        <Polyline positions={travelled} pathOptions={{ className: 'lt-route-done', weight: 6, lineCap: 'round', lineJoin: 'round' }} />
+        <Polyline positions={travelled} className="lt-route-done" pathOptions={{ weight: 6, lineCap: 'round', lineJoin: 'round' }} />
       ) : null}
 
       {from ? <Marker position={from} icon={pin(showLabels ? 'Pickup' : null, 'pickup')} /> : null}
