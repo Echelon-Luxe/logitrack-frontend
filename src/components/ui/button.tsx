@@ -8,12 +8,8 @@ const button = cva(
   {
     variants: {
       variant: {
-        // Violet gradient pill, the TalkPadi primary.
-        primary: 'bg-linear-to-b from-brand to-brand-strong text-white shadow-[0_6px_16px_-6px_rgb(98_72_255/0.55)] hover:opacity-90',
-        // Coral pill for the one headline action on a screen.
-        accent: 'bg-linear-to-r from-accent to-accent-strong text-white hover:shadow-lg active:scale-[0.98]',
-        dark: 'bg-ink text-white hover:bg-ink-hover',
-        secondary: 'bg-surface text-fg border border-ink/15 hover:border-ink/40 hover:bg-surface-2',
+        primary: 'bg-ink text-white hover:bg-ink-hover',
+        secondary: 'bg-surface text-fg border border-line hover:bg-surface-3 hover:border-line-strong',
         soft: 'border border-line bg-surface-2 text-fg hover:bg-surface-3',
         ghost: 'text-muted hover:bg-surface-3 hover:text-fg',
         danger: 'bg-rose-600 text-white hover:bg-rose-700',
@@ -21,12 +17,12 @@ const button = cva(
         success: 'bg-emerald-600 text-white hover:bg-emerald-700',
       },
       size: {
-        xs: 'h-7 px-3 text-xs',
-        sm: 'h-8 px-3.5 text-xs',
-        md: 'h-10 px-5',
-        lg: 'h-12 px-7 text-[15px]',
+        xs: 'h-7 px-2.5 text-xs rounded-lg',
+        sm: 'h-8 px-3 text-xs rounded-lg',
+        md: 'h-10 px-4',
+        lg: 'h-11 px-5 text-[15px]',
         icon: 'size-9',
-        'icon-sm': 'size-8',
+        'icon-sm': 'size-8 rounded-lg',
       },
     },
     defaultVariants: { variant: 'primary', size: 'md' },

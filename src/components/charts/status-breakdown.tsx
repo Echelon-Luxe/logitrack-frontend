@@ -14,8 +14,8 @@ export function StatusBreakdown({ byStatus }: { byStatus: Partial<Record<Shipmen
         return (
           <li key={s} className="grid grid-cols-[124px_1fr_32px] items-center gap-3" title={`${n} ${s.toLowerCase().replace(/_/g, ' ')}`}>
             <StatusBadge status={s} size="sm" className="justify-self-start" />
-            <div className="h-2 overflow-hidden rounded-full bg-lavender">
-              <div className="h-full rounded-full bg-linear-to-r from-brand to-brand-strong transition-[width] duration-700" style={{ width: `${(n / max) * 100}%` }} />
+            <div className="h-2 overflow-hidden rounded-full bg-surface-3">
+              <div className="h-full rounded-full bg-ink-700 transition-[width] duration-700" style={{ width: `${(n / max) * 100}%` }} />
             </div>
             <span className="text-right text-sm font-semibold tabular-nums">{n}</span>
           </li>

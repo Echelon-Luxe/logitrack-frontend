@@ -2,10 +2,10 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 const control =
-  'w-full rounded-[var(--radius-field)] border border-line bg-surface px-3.5 text-sm text-fg placeholder:text-faint transition-[box-shadow,border-color] hover:border-line-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:border-brand disabled:cursor-not-allowed disabled:opacity-50';
+  'w-full rounded-[var(--radius-control)] border border-line bg-surface px-3 text-sm text-fg placeholder:text-faint transition-[box-shadow,border-color] hover:border-line-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:border-brand disabled:cursor-not-allowed disabled:opacity-50';
 
 export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
-  ({ className, ...props }, ref) => <input ref={ref} className={cn(control, 'h-11', className)} {...props} />,
+  ({ className, ...props }, ref) => <input ref={ref} className={cn(control, 'h-10', className)} {...props} />,
 );
 Input.displayName = 'Input';
 
@@ -20,7 +20,7 @@ export const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttrib
     <div className="relative">
       <select
         ref={ref}
-        className={cn(control, 'h-11 cursor-pointer appearance-none pr-9', className)}
+        className={cn(control, 'h-10 cursor-pointer appearance-none pr-9', className)}
         {...props}
       >
         {children}

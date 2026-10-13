@@ -51,8 +51,8 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
   return (
     <D.Root open={open} onOpenChange={change}>
       <D.Portal>
-        <D.Overlay className="fixed inset-0 z-50 bg-ink-950/40 backdrop-blur-[2px]" />
-        <D.Content className="fixed top-[12vh] left-1/2 z-50 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 overflow-hidden rounded-3xl border border-line bg-surface shadow-[var(--shadow-pop)] focus:outline-none">
+        <D.Overlay className="fixed inset-0 z-50 bg-ink-950/40-[2px]" />
+        <D.Content className="fixed top-[12vh] left-1/2 z-50 w-[calc(100%-2rem)] max-w-xl -translate-x-1/2 overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow-pop)] focus:outline-none">
           <D.Title className="sr-only">Search</D.Title>
           <D.Description className="sr-only">Search shipments, people and pages</D.Description>
           <Command shouldFilter={false} loop className="flex flex-col">
@@ -64,7 +64,7 @@ export function CommandPalette({ open, onOpenChange }: { open: boolean; onOpenCh
                 placeholder="Search shipments, customers, pages…"
                 className="h-14 flex-1 bg-transparent text-[15px] outline-none placeholder:text-faint"
               />
-              <kbd className="rounded-full border border-line px-1.5 py-0.5 text-[11px] text-muted">esc</kbd>
+              <kbd className="rounded-md border border-line px-1.5 py-0.5 text-[11px] text-muted">esc</kbd>
             </div>
             <Command.List className="scroll-thin max-h-[60vh] overflow-y-auto p-2">
               <Command.Empty className="px-3 py-10 text-center text-sm text-muted">

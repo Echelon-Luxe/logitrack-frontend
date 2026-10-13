@@ -54,7 +54,7 @@ function Customers() {
       </div>
 
       {customers.isLoading ? (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-40 rounded-3xl" />)}</div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-40 rounded-xl" />)}</div>
       ) : !customers.data?.items.length ? (
         <EmptyState icon={Users} title="No customers found" description="Try a different search." />
       ) : (
@@ -62,7 +62,7 @@ function Customers() {
           {customers.data.items.map((c) => {
             const st = stats.get(c.id);
             return (
-              <button key={c.id} type="button" onClick={() => setOpen(c)} className="cursor-pointer rounded-3xl border border-line bg-surface p-5 text-left shadow-[var(--shadow-card)] transition hover:border-line-strong">
+              <button key={c.id} type="button" onClick={() => setOpen(c)} className="cursor-pointer rounded-xl border border-line bg-surface p-5 text-left shadow-[var(--shadow-card)] transition hover:border-line-strong">
                 <div className="flex items-center gap-3">
                   <Avatar name={c.name} />
                   <div className="min-w-0 flex-1">
@@ -72,9 +72,9 @@ function Customers() {
                   {!c.active ? <Badge tone="rose" size="sm">Disabled</Badge> : null}
                 </div>
                 <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-                  <div className="rounded-2xl bg-surface-2 py-2"><p className="font-semibold tabular-nums">{st?.count ?? 0}</p><p className="text-[11px] text-muted">Orders</p></div>
-                  <div className="rounded-2xl bg-surface-2 py-2"><p className="font-semibold tabular-nums">{st?.active ?? 0}</p><p className="text-[11px] text-muted">Active</p></div>
-                  <div className="rounded-2xl bg-surface-2 py-2"><p className="font-semibold tabular-nums">{formatKobo(st?.spend ?? 0)}</p><p className="text-[11px] text-muted">Booked</p></div>
+                  <div className="rounded-xl bg-surface-2 py-2"><p className="font-semibold tabular-nums">{st?.count ?? 0}</p><p className="text-[11px] text-muted">Orders</p></div>
+                  <div className="rounded-xl bg-surface-2 py-2"><p className="font-semibold tabular-nums">{st?.active ?? 0}</p><p className="text-[11px] text-muted">Active</p></div>
+                  <div className="rounded-xl bg-surface-2 py-2"><p className="font-semibold tabular-nums">{formatKobo(st?.spend ?? 0)}</p><p className="text-[11px] text-muted">Booked</p></div>
                 </div>
               </button>
             );
@@ -96,15 +96,15 @@ function CustomerSheet({ customer: c }: { customer: User }) {
   return (
     <DialogContent side="right" title={c.name} description={`Customer since ${formatDate(c.createdAt)}`}>
       <div className="flex flex-wrap gap-2">
-        <a href={`mailto:${c.email}`} className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm hover:bg-surface-3"><Mail className="size-4" />{c.email}</a>
-        {c.phone ? <a href={telHref(c.phone)} className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm hover:bg-surface-3"><Phone className="size-4" />{c.phone}</a> : null}
+        <a href={`mailto:${c.email}`} className="inline-flex items-center gap-2 rounded-xl border border-line px-3 py-2 text-sm hover:bg-surface-3"><Mail className="size-4" />{c.email}</a>
+        {c.phone ? <a href={telHref(c.phone)} className="inline-flex items-center gap-2 rounded-xl border border-line px-3 py-2 text-sm hover:bg-surface-3"><Phone className="size-4" />{c.phone}</a> : null}
       </div>
       <h3 className="mt-6 mb-2 text-sm font-semibold">Orders</h3>
       {all.isLoading ? <Skeleton className="h-32" /> : rows.length === 0 ? <p className="text-sm text-muted">No orders yet.</p> : (
         <ul className="space-y-2">
           {rows.map((s) => (
             <li key={s.id}>
-              <Link href={`/shipments/${s.id}`} className="flex items-center gap-3 rounded-2xl border border-line p-3 hover:bg-surface-2">
+              <Link href={`/shipments/${s.id}`} className="flex items-center gap-3 rounded-xl border border-line p-3 hover:bg-surface-2">
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-semibold">{s.reference} <span className="font-normal text-muted">· {formatKobo(s.priceKobo)}</span></p>
                   <p className="truncate text-xs text-muted">{s.origin} → {s.destination}</p>

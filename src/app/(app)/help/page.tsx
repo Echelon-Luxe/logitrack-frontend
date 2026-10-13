@@ -18,9 +18,9 @@ export default function HelpPage() {
       <PageHeader title="Help & Support" description="Answers to common questions, and how to reach us." />
       <div className="space-y-3">
         {FAQ.map((f) => (
-          <details key={f.q} className="group rounded-3xl border border-line bg-surface p-5 shadow-[var(--shadow-card)] open:pb-5">
+          <details key={f.q} className="group rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow-card)] open:pb-5">
             <summary className="flex cursor-pointer list-none items-center gap-3 font-semibold">
-              <span className="grid place-items-center rounded-2xl bg-lavender text-brand size-9"><f.icon className="size-4" /></span>
+              <span className="grid place-items-center rounded-lg border border-line bg-surface text-muted size-9"><f.icon className="size-4" /></span>
               <span className="flex-1">{f.q}</span>
               <span className="text-faint transition group-open:rotate-45">+</span>
             </summary>
@@ -28,13 +28,13 @@ export default function HelpPage() {
           </details>
         ))}
       </div>
-      <div className="flex items-center gap-4 rounded-3xl bg-lavender p-5">
+      <div className="flex items-center gap-4 rounded-xl border border-line bg-surface-2 p-5">
         <LifeBuoy className="size-6 text-muted" />
         <div className="flex-1">
           <p className="font-semibold">Still stuck?</p>
           <p className="text-sm text-muted">Our support team reads every message.</p>
         </div>
-        <a href="mailto:support@logitrack.local" className="inline-flex h-10 items-center gap-2 rounded-full bg-linear-to-b from-brand to-brand-strong px-5 text-sm font-medium text-white hover:opacity-90"><Mail className="size-4" />Email support</a>
+        <a href="mailto:support@logitrack.local" className="inline-flex h-10 items-center gap-2 rounded-lg bg-ink px-4 text-sm font-medium text-white hover:bg-ink-hover"><Mail className="size-4" />Email support</a>
       </div>
     </PageContainer>
   );
