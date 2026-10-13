@@ -4,6 +4,7 @@ import { Hero } from '@/components/landing/hero';
 import { Features, HowItWorks, Problems, Roles, TrustBar } from '@/components/landing/sections';
 import { Faq } from '@/components/landing/faq';
 import { ClosingCta, Footer } from '@/components/landing/footer';
+import { MotionRoot } from '@/components/landing/motion';
 
 export const metadata: Metadata = {
   title: { absolute: 'LogiTrack · Delivery tracking for Lagos businesses' },
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function LandingPage() {
   return (
-    <>
+    <MotionRoot>
       <LandingNav />
       <main>
         <Hero />
@@ -25,6 +26,6 @@ export default function LandingPage() {
         <ClosingCta />
       </main>
       <Footer />
-    </>
+    </MotionRoot>
   );
 }

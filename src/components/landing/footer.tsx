@@ -1,15 +1,38 @@
+'use client';
+
 import Link from 'next/link';
+import { motion } from 'motion/react';
 import { Logo } from '@/components/logo';
 import { NAV_LINKS } from './content';
+import { EASE } from './motion';
 
 export function ClosingCta() {
   return (
     <section className="px-4 pt-16 pb-10">
       <div className="relative mx-auto max-w-6xl">
         {/* Two tabs peeking out above the band, as on talkpadi.com. */}
-        <div className="absolute inset-x-0 -top-6 mx-auto h-24 w-[90%] rounded-t-[40px] bg-lp-coral/10 md:rounded-t-[60px]" aria-hidden />
-        <div className="absolute inset-x-0 -top-3 mx-auto h-24 w-[95%] rounded-t-[40px] bg-[#f9d2cb] md:rounded-t-[60px]" aria-hidden />
-        <div className="relative flex min-h-96 flex-col items-center justify-center rounded-[40px] bg-linear-to-br from-lp-coral to-lp-coral-deep px-6 py-16 text-center md:min-h-[30rem] md:rounded-[60px]">
+        <motion.div
+          className="absolute inset-x-0 -top-6 mx-auto h-24 w-[90%] rounded-t-[40px] bg-lp-coral/10 md:rounded-t-[60px]"
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: EASE, delay: 0.3 }}
+          aria-hidden
+        />
+        <motion.div
+          className="absolute inset-x-0 -top-3 mx-auto h-24 w-[95%] rounded-t-[40px] bg-[#f9d2cb] md:rounded-t-[60px]"
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: EASE, delay: 0.18 }}
+          aria-hidden
+        />
+        <motion.div
+          initial={{ opacity: 0, y: 80 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.8, ease: EASE }}
+          className="relative flex min-h-96 flex-col items-center justify-center rounded-[40px] bg-linear-to-br from-lp-coral to-lp-coral-deep px-6 py-16 text-center md:min-h-[30rem] md:rounded-[60px]">
           <h2 className="max-w-3xl font-lp-display text-4xl font-extrabold tracking-tight text-white md:text-5xl lg:text-6xl">
             Book your next delivery and watch it arrive
           </h2>
@@ -17,7 +40,7 @@ export function ClosingCta() {
           <Link href="/login" className="mt-8 w-fit rounded-full bg-linear-to-b from-white to-[#e8e8e8] px-12 py-5 text-sm font-medium text-black transition-transform hover:scale-105">
             Log in
           </Link>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -44,13 +67,18 @@ export function Footer() {
         </div>
         <div className="mx-6 my-8 h-px bg-lp-ink/10 md:mx-10" />
         <p className="px-6 text-xs text-lp-ink/50 md:px-10">© {new Date().getFullYear()} LogiTrack</p>
-        {/* Oversized wordmark fading into the panel. */}
-        <p
-          className="mt-4 -mb-[3%] w-full bg-linear-to-b from-lp-ink/15 via-lp-ink/8 to-transparent bg-clip-text text-center font-lp-display text-[21vw] leading-[0.8] font-extrabold tracking-tighter text-transparent select-none"
-          aria-hidden
-        >
-          LogiTrack
-        </p>
+        {/* Oversized wordmark, sliding up into the panel. */}
+        {/* The trigger is the clipping box: the word itself starts fully
+            clipped, so it would never count as in view. */}
+        <motion.div className="overflow-hidden" initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.3 }}>
+          <motion.p
+            className="mt-4 -mb-[3%] w-full bg-linear-to-b from-lp-ink/15 via-lp-ink/8 to-transparent bg-clip-text text-center font-lp-display text-[21vw] leading-[0.8] font-extrabold tracking-tighter text-transparent select-none"
+            variants={{ hidden: { y: '100%' }, show: { y: 0, transition: { duration: 1, ease: EASE } } }}
+            aria-hidden
+          >
+            LogiTrack
+          </motion.p>
+        </motion.div>
       </div>
     </footer>
   );
