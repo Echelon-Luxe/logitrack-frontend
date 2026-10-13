@@ -1,5 +1,5 @@
 import {
-  BellRing, CreditCard, Files, Headset, MapPinned, PhoneCall, Route, ShieldCheck, Truck, UserRound, Users, Wallet,
+  Bell, BellRing, CreditCard, Files, Headset, Mail, MapPin, MapPinned, PhoneCall, Route, ShieldCheck, Truck, UserRound, Users, Wallet,
 } from 'lucide-react';
 
 // Landing page copy, kept apart from the layout so it can be edited in one place.
@@ -11,12 +11,14 @@ export const NAV_LINKS = [
   { href: '#faq', label: 'FAQ' },
 ];
 
-// Tilted status chips floating over the hero, like chat bubbles.
-export const HERO_CHIPS = [
-  { label: 'Picked up · Ikeja', tone: 'bg-lp-chip', dot: 'bg-lp-violet', tilt: '-rotate-2' },
-  { label: 'In transit · 32 km/h', tone: 'bg-lp-cream', dot: 'bg-lp-orange', tilt: 'rotate-1' },
-  { label: 'Out for delivery', tone: 'bg-lp-mint', dot: 'bg-lp-teal', tilt: 'rotate-2' },
-  { label: 'Delivered ✓', tone: 'bg-lp-lavender', dot: 'bg-lp-violet-deep', tilt: '-rotate-2' },
+// Chat-style updates popping in around the hero, each under a round badge for
+// where it came from (inbox, email, the driver, the map), like the social
+// bubbles on talkpadi.com.
+export const HERO_MESSAGES = [
+  { icon: Bell, text: 'Your parcel LT-2411 was picked up in Ikeja. Track it live here.', bubble: 'bg-lp-chip', badge: 'bg-lp-violet', spark: 'text-lp-violet', tilt: -2 },
+  { icon: Mail, text: 'Payment received ✓ Your delivery is booked for today.', bubble: 'bg-lp-mint', badge: 'bg-lp-teal', spark: 'text-lp-teal', tilt: 1.5 },
+  { icon: Truck, text: 'I’m 5 minutes away. Please have someone at the gate.', bubble: 'bg-lp-cream', badge: 'bg-lp-orange', spark: 'text-lp-orange', tilt: 1.5 },
+  { icon: MapPin, text: 'Delivered to 5 Admiralty Way, Lekki. Thank you!', bubble: 'bg-lp-lavender', badge: 'bg-lp-violet-deep', spark: 'text-lp-violet-deep', tilt: -2 },
 ];
 
 export const SECTORS = ['E-commerce', 'Pharmacy', 'Food', 'Retail', 'Documents'];
