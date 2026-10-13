@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { LogOut, Menu, PanelLeft, Plus, Search, X } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { useUnreadCount } from '@/hooks/queries';
-import { can } from '@/lib/rbac';
+import { can, homeFor } from '@/lib/rbac';
 import { ROLE_LABEL } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Avatar } from '@/components/ui/avatar';
@@ -96,7 +96,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const sidebar = (compact: boolean, mobile = false) => (
     <div className="flex h-full flex-col gap-5 p-4">
       <div className={cn('flex h-10 items-center gap-3 px-1', compact && 'flex-col h-auto')}>
-        <Link href="/" className="flex min-w-0 flex-1 items-center">
+        <Link href={homeFor(user.role)} className="flex min-w-0 flex-1 items-center">
           <Logo compact={compact} />
         </Link>
         {mobile ? (

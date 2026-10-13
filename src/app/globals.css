@@ -37,6 +37,27 @@
   --animate-pulse-ring: pulse-ring 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
 }
 
+/* Landing page only (src/app/(marketing)). Namespaced lp-* so nothing in the
+   app picks these up. Palette after talkpadi.com; the coral is a shade deeper
+   than theirs so white button text clears 4.5:1. */
+@theme {
+  --font-lp-display: var(--font-cabinet), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-lp-ink: #1b1a1a;
+  --color-lp-violet: #6248ff;
+  --color-lp-violet-deep: #4634b7;
+  --color-lp-coral: #d93a1c;
+  --color-lp-coral-deep: #c23016;
+  --color-lp-lavender: #f2f0ff;
+  --color-lp-chip: #d5cdfe;
+  --color-lp-peach: #f9e1dc;
+  --color-lp-peach-deep: #eca194;
+  --color-lp-cream: #fef4ee;
+  --color-lp-mint: #e3f8f5;
+  --color-lp-orange: #fb7209;
+  --color-lp-teal: #00bea6;
+  --color-lp-panel: #f4f4f4;
+}
+
 /* Semantic tokens. Components use these, never raw ink-* values. Light only. */
 :root {
   --bg: oklch(0.975 0.002 260);
@@ -97,6 +118,22 @@ body {
 .scroll-thin { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
 .scroll-thin::-webkit-scrollbar { width: 8px; height: 8px; }
 .scroll-thin::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 8px; border: 2px solid transparent; background-clip: padding-box; }
+
+/* Soft violet/peach halo behind the landing hero screenshot. */
+.lp-glow { isolation: isolate; position: relative; }
+.lp-glow::before {
+  content: "";
+  position: absolute;
+  inset: -120px;
+  z-index: -1;
+  background:
+    radial-gradient(circle at left center, #b5aaf359, transparent 65%),
+    radial-gradient(circle at bottom center, #c1b7f859, transparent 65%),
+    radial-gradient(circle at right center, #f8bfb54d, transparent 65%),
+    radial-gradient(circle at top center, #fac0b64d, transparent 65%);
+  filter: blur(70px);
+  pointer-events: none;
+}
 
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(6px); }
