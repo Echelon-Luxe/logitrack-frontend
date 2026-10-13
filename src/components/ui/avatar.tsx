@@ -1,12 +1,13 @@
 import { cn } from '@/lib/utils';
 import { initials } from '@/lib/format';
 
-// Flat, muted tints - one per person, stable across the app. Enough to tell
-// people apart in a list without turning every row into a sticker.
+// Flat tints from the brand's soft palette - one per person, stable across
+// the app. Enough to tell people apart in a list without turning every row
+// into a sticker.
 const TONES = [
-  'bg-sky-100 text-sky-800', 'bg-violet-100 text-violet-800', 'bg-emerald-100 text-emerald-800',
-  'bg-amber-100 text-amber-800', 'bg-rose-100 text-rose-800', 'bg-slate-200 text-slate-700',
-  'bg-teal-100 text-teal-800', 'bg-indigo-100 text-indigo-800',
+  'bg-brand-200 text-brand-700', 'bg-cream text-orange-800', 'bg-mint text-teal-800',
+  'bg-peach text-rose-800', 'bg-lavender text-brand-700', 'bg-amber-100 text-amber-800',
+  'bg-sky-100 text-sky-800', 'bg-ink-100 text-ink-700',
 ];
 
 const toneOf = (seed: string): string => {

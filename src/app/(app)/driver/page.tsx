@@ -61,7 +61,7 @@ function DriverHome() {
       />
 
       {!driver.approvedAt ? (
-        <div className="flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+        <div className="flex items-start gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-4">
           <Hourglass className="mt-0.5 size-5 text-amber-600" />
           <div>
             <p className="font-semibold">Waiting for approval</p>
@@ -89,7 +89,7 @@ function DriverHome() {
               <CardHeader><CardTitle>Up next</CardTitle></CardHeader>
               <CardContent className="space-y-2">
                 {active.filter((s) => s.id !== current?.id).map((s) => (
-                  <Link key={s.id} href={`/shipments/${s.id}`} className="flex items-center justify-between rounded-xl border border-line p-3 hover:bg-surface-2">
+                  <Link key={s.id} href={`/shipments/${s.id}`} className="flex items-center justify-between rounded-2xl border border-line p-3 hover:bg-surface-2">
                     <span className="text-sm font-medium">{s.reference}</span><StatusBadge status={s.status} size="sm" />
                   </Link>
                 ))}
@@ -104,7 +104,7 @@ function DriverHome() {
             <CardHeader><div><CardTitle>Recent jobs</CardTitle><CardDescription>{history.length} completed or cancelled</CardDescription></div></CardHeader>
             <CardContent className="space-y-1">
               {history.length === 0 ? <p className="text-sm text-muted">Nothing yet.</p> : history.slice(0, 6).map((s) => (
-                <Link key={s.id} href={`/shipments/${s.id}`} className="flex items-center justify-between gap-3 rounded-lg px-2 py-2 hover:bg-surface-2">
+                <Link key={s.id} href={`/shipments/${s.id}`} className="flex items-center justify-between gap-3 rounded-xl px-2 py-2 hover:bg-surface-2">
                   <div className="min-w-0">
                     <p className="text-sm font-medium">{s.reference}</p>
                     <p className="text-xs text-muted">{formatDate(s.updatedAt)}</p>
@@ -165,7 +165,7 @@ function CurrentJob({ job }: { job: Shipment }) {
       <div className="flex flex-wrap items-center justify-between gap-3 p-5">
         <div>
           <p className="text-xs font-medium text-muted">Current job</p>
-          <p className="text-xl font-semibold tracking-tight">{job.reference}</p>
+          <p className="font-display text-2xl font-extrabold tracking-tight">{job.reference}</p>
         </div>
         <div className="flex items-center gap-2">
           <StatusBadge status={job.status} />
@@ -194,7 +194,7 @@ function CurrentJob({ job }: { job: Shipment }) {
           <div className="flex gap-3"><MapPin className="mt-0.5 size-4 shrink-0 text-emerald-500" /><div><p className="text-xs text-muted">Pickup</p><p className="text-sm font-medium">{job.origin}</p></div></div>
           <div className="flex gap-3"><MapPin className="mt-0.5 size-4 shrink-0 text-brand" /><div><p className="text-xs text-muted">Dropoff</p><p className="text-sm font-medium">{job.destination}</p></div></div>
         </div>
-        {job.notes ? <p className="rounded-xl bg-surface-2 p-3 text-sm text-muted"><span className="font-medium text-fg">Note: </span>{job.notes}</p> : null}
+        {job.notes ? <p className="rounded-2xl bg-surface-2 p-3 text-sm text-muted"><span className="font-medium text-fg">Note: </span>{job.notes}</p> : null}
 
         <div className="flex flex-wrap gap-2">
           {actions.map((a) => (
@@ -208,7 +208,7 @@ function CurrentJob({ job }: { job: Shipment }) {
         </div>
 
         {moving ? (
-          <div className="rounded-xl border border-line bg-surface-2 p-4">
+          <div className="rounded-3xl border border-line bg-surface-2 p-4">
             <p className="text-sm font-semibold">Live location</p>
             <p className="mt-0.5 text-[13px] text-muted">Your customer sees your position on their map while the parcel is with you.</p>
             <div className="mt-3 flex flex-wrap gap-2">
@@ -258,8 +258,8 @@ function Onboarding() {
   return (
     <PageContainer className="max-w-xl">
       <div className="text-center">
-        <span className="mx-auto grid size-14 place-items-center rounded-lg border border-line text-muted"><Truck className="size-6" /></span>
-        <h1 className="mt-4 text-2xl font-semibold tracking-tight">Set up your driver profile</h1>
+        <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-lavender text-brand"><Truck className="size-6" /></span>
+        <h1 className="mt-4 font-display text-3xl font-extrabold tracking-tight">Set up your driver profile</h1>
         <p className="mt-1 text-sm text-muted">Tell us what you drive. Dispatch approves new drivers before their first job.</p>
       </div>
       <Card>

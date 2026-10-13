@@ -120,7 +120,7 @@ export function TrackingView() {
       <section className="flex min-h-0 w-full flex-col border-line lg:w-[460px] lg:shrink-0 lg:border-r">
         <div className="space-y-4 p-5 pb-4 sm:p-6 sm:pb-4">
           <div className="flex items-center justify-between gap-3">
-            <h1 className="text-[26px] font-semibold tracking-tight">Tracking Delivery</h1>
+            <h1 className="font-display text-[30px] font-extrabold tracking-tight">Tracking Delivery</h1>
             <div className="flex gap-2">
               {can(user.role, 'shipment.create') ? (
                 <Button asChild size="icon-sm" variant="secondary" title="New shipment">
@@ -152,7 +152,7 @@ export function TrackingView() {
 
         <div className="scroll-thin min-h-0 flex-1 space-y-4 overflow-y-auto px-5 pb-6 sm:px-6">
           {list.isLoading ? (
-            [0, 1, 2].map((i) => <Skeleton key={i} className="h-[230px] rounded-xl" />)
+            [0, 1, 2].map((i) => <Skeleton key={i} className="h-[230px] rounded-3xl" />)
           ) : visible.length === 0 ? (
             <EmptyState
               icon={PackageSearch}
@@ -160,7 +160,7 @@ export function TrackingView() {
               description={all.length === 0
                 ? (can(user.role, 'shipment.create') ? 'Create your first shipment and follow it here in real time.' : 'Shipments assigned to you will appear here.')
                 : 'Try another filter or search term.'}
-              action={all.length === 0 && can(user.role, 'shipment.create') ? <Button asChild><Link href="/shipments/new"><Plus />New shipment</Link></Button> : undefined}
+              action={all.length === 0 && can(user.role, 'shipment.create') ? <Button asChild variant="accent"><Link href="/shipments/new"><Plus />New shipment</Link></Button> : undefined}
             />
           ) : (
             visible.map((s) => (
@@ -193,11 +193,11 @@ export function TrackingView() {
 
         {selected ? (
           <div className="pointer-events-none absolute inset-x-3 bottom-3 z-[500] sm:inset-x-auto sm:right-4 sm:bottom-4 sm:w-[360px]">
-            <div className="pointer-events-auto rounded-xl border border-line bg-surface p-4 shadow-[var(--shadow-pop)]">
+            <div className="pointer-events-auto rounded-3xl border border-line bg-surface p-4 shadow-[var(--shadow-pop)]">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-xs font-medium text-muted">Shipment</p>
-                  <p className="text-lg font-semibold tracking-tight">{selected.reference}</p>
+                  <p className="font-display text-xl font-extrabold tracking-tight">{selected.reference}</p>
                 </div>
                 <StatusBadge status={selected.status} />
               </div>
@@ -208,7 +208,7 @@ export function TrackingView() {
                 <Metric icon={Gauge} label="Speed" value={moving && speed ? `${Math.round(speed)} km/h` : '—'} />
               </div>
 
-              <div className="mt-3 flex items-center gap-3 rounded-xl bg-surface-2 p-2.5">
+              <div className="mt-3 flex items-center gap-3 rounded-2xl bg-surface-2 p-2.5">
                 <Avatar name={selected.driverName ?? '?'} size="sm" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm font-medium">{selected.driverName ?? 'No driver yet'}</p>
@@ -240,7 +240,7 @@ export function TrackingView() {
 }
 
 const Metric = ({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) => (
-  <div className="rounded-xl border border-line px-2 py-2">
+  <div className="rounded-2xl border border-line px-2 py-2">
     <p className="flex items-center justify-center gap-1 text-[11px] font-medium text-muted"><Icon className="size-3" />{label}</p>
     <p className="mt-0.5 text-sm font-semibold tabular-nums">{value}</p>
   </div>

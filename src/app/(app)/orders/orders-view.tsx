@@ -66,7 +66,7 @@ export function OrdersView() {
         actions={
           <>
             <Button variant="secondary" onClick={exportCsv} disabled={!rows.length}><Download />Export CSV</Button>
-            {can(user.role, 'shipment.create') ? <Button asChild><Link href="/shipments/new"><Plus />New shipment</Link></Button> : null}
+            {can(user.role, 'shipment.create') ? <Button asChild variant="accent"><Link href="/shipments/new"><Plus />New shipment</Link></Button> : null}
           </>
         }
       />
@@ -84,7 +84,7 @@ export function OrdersView() {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-line bg-surface shadow-[var(--shadow-card)]">
+      <div className="overflow-hidden rounded-3xl border border-line bg-surface shadow-[var(--shadow-card)]">
         {list.isLoading ? (
           <div className="space-y-2 p-4">{[0, 1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-12" />)}</div>
         ) : rows.length === 0 ? (

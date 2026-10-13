@@ -17,8 +17,8 @@ export const STATUS_TONE: Record<ShipmentStatus, BadgeTone> = {
 export const STATUS_COLOR: Record<ShipmentStatus, string> = {
   CREATED: 'oklch(0.75 0.15 70)',
   PICKED_UP: 'oklch(0.68 0.14 230)',
-  IN_TRANSIT: 'oklch(0.58 0.2 290)',
-  OUT_FOR_DELIVERY: 'oklch(0.62 0.12 180)',
+  IN_TRANSIT: '#6248ff',
+  OUT_FOR_DELIVERY: '#00bea6',
   DELIVERED: 'oklch(0.62 0.15 155)',
   CANCELLED: 'oklch(0.62 0.17 15)',
 };

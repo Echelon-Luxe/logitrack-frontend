@@ -73,7 +73,7 @@ function NewShipmentForm() {
     <PageContainer className="max-w-6xl">
       <div>
         <Link href="/orders" className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-fg"><ArrowLeft className="size-4" />Orders</Link>
-        <h1 className="mt-2 text-2xl font-semibold tracking-tight">New shipment</h1>
+        <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight sm:text-[34px]">New shipment</h1>
         <p className="mt-1 text-sm text-muted">Where should we collect it, and where is it going?</p>
       </div>
 
@@ -136,13 +136,13 @@ function NewShipmentForm() {
             </div>
             <CardContent className="space-y-4 pt-5">
               <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-lg border border-line p-3">
+                <div className="rounded-2xl bg-lavender p-4">
                   <p className="flex items-center gap-1.5 text-xs font-medium text-muted"><Route className="size-3.5" />Distance</p>
-                  <p className="mt-1 text-lg font-semibold tabular-nums">{quote.data?.distanceKm != null ? `${quote.data.distanceKm} km` : '—'}</p>
+                  <p className="mt-1 font-display text-xl font-extrabold tabular-nums">{quote.data?.distanceKm != null ? `${quote.data.distanceKm} km` : '—'}</p>
                 </div>
-                <div className="rounded-lg border border-line p-3">
+                <div className="rounded-2xl bg-lavender p-4">
                   <p className="flex items-center gap-1.5 text-xs font-medium text-muted"><Wallet className="size-3.5" />Price</p>
-                  <p className="mt-1 text-lg font-semibold tabular-nums">{quote.data ? formatKobo(quote.data.priceKobo) : '—'}</p>
+                  <p className="mt-1 font-display text-xl font-extrabold tabular-nums">{quote.data ? formatKobo(quote.data.priceKobo) : '—'}</p>
                 </div>
               </div>
               <p className="flex gap-2 text-xs text-muted">

@@ -81,7 +81,7 @@ function Fleet() {
       </div>
 
       {drivers.isLoading ? (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-44 rounded-xl" />)}</div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">{[0, 1, 2].map((i) => <Skeleton key={i} className="h-44 rounded-3xl" />)}</div>
       ) : rows.length === 0 ? (
         <EmptyState icon={Truck} title="No drivers here" description={filter === 'pending' ? 'Nobody is waiting for approval.' : 'Try another filter.'} />
       ) : (
@@ -89,7 +89,7 @@ function Fleet() {
           {rows.map((d) => {
             const badge = STATUS_BADGE[d.status];
             return (
-              <div key={d.id} className="flex flex-col rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow-card)]">
+              <div key={d.id} className="flex flex-col rounded-3xl border border-line bg-surface p-5 shadow-[var(--shadow-card)]">
                 <div className="flex items-center gap-3">
                   <Avatar name={d.name} />
                   <div className="min-w-0 flex-1">
@@ -143,7 +143,7 @@ function DispatchQueue() {
       </CardHeader>
       <CardContent>
         {queue.isLoading ? <Skeleton className="h-24" /> : unassigned.length === 0 ? (
-          <p className="rounded-xl bg-surface-2 p-4 text-sm text-muted">Queue is clear - every shipment has a driver.</p>
+          <p className="rounded-2xl bg-surface-2 p-4 text-sm text-muted">Queue is clear - every shipment has a driver.</p>
         ) : (
           <ul className="divide-y divide-line">
             {unassigned.map((s) => (

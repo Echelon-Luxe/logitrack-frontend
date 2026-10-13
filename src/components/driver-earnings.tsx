@@ -28,13 +28,13 @@ export function DriverEarningsCard() {
         {data ? (
           <>
             <dl className="grid grid-cols-2 gap-3">
-              <div className="rounded-xl bg-amber-500/10 p-3">
-                <dt className="text-xs font-medium text-amber-700">Awaiting delivery</dt>
-                <dd className="mt-1 text-xl font-semibold tabular-nums">{formatKobo(data.totals.pending, currency)}</dd>
+              <div className="rounded-2xl bg-cream p-4">
+                <dt className="text-xs font-medium text-orange-700">Awaiting delivery</dt>
+                <dd className="mt-1 font-display text-2xl font-extrabold tabular-nums">{formatKobo(data.totals.pending, currency)}</dd>
               </div>
-              <div className="rounded-xl bg-emerald-500/10 p-3">
-                <dt className="text-xs font-medium text-emerald-700">Paid out</dt>
-                <dd className="mt-1 text-xl font-semibold tabular-nums">{formatKobo(data.totals.paid, currency)}</dd>
+              <div className="rounded-2xl bg-mint p-4">
+                <dt className="text-xs font-medium text-teal-700">Paid out</dt>
+                <dd className="mt-1 font-display text-2xl font-extrabold tabular-nums">{formatKobo(data.totals.paid, currency)}</dd>
               </div>
             </dl>
             {data.earnings.length === 0 ? (
